@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "433364857143",
+    "firebase_url": "https://easy-menu-6b476.firebaseio.com",
+    "project_id": "easy-menu-6b476",
+    "storage_bucket": "easy-menu-6b476.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433364857143:android:aa039c8359dc534555aab2",
+        "android_client_info": {
+          "package_name": "com.easy_menu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433364857143-t8uvij0efji7gu7d9o6lgthfodg4pd5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD0O8GINJral1wVtbzuYnB7BZJbl_h0kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433364857143-t8uvij0efji7gu7d9o6lgthfodg4pd5l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
