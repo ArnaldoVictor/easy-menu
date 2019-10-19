@@ -9,7 +9,7 @@ export default function Index(){
     firebase.database().ref('teste').once('value').then((snapshot)=>{
       setTeste(snapshot.val());
     });
-  });
+  }, []);
 
   return (
     <View>
