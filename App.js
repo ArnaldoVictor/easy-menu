@@ -12,10 +12,12 @@ export default function Index(){
   }, []);
 
   return (
+
     <View>
       <Text>Cardápio Digital</Text>
       <Text>{teste}</Text>
     </View>
+    
   );
   
 }
