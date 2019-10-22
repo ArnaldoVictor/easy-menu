@@ -7,7 +7,6 @@ export default function QRCode(props) {
     const [camera, setCamera] = useState(null);
     const [barCodeType, setBarCodeType] = useState(null);
     const [barCodeData, setBarCodeData] = useState(null);
-    const width = Dimensions.get('screen').width;
 
     function readCode(object){
         if(object.type != null && barCodeType === null){
