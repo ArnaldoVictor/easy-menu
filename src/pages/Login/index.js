@@ -1,37 +1,39 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
-import { Container, Logo, FormText, Input, TextButtons, TButton, LoginBtn, QrcodeBtn, TBtn   } from './styles';
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import styles from './styles';
 
 export default function Login() {
   return (
-    <Container>
-        <Logo source={require('../../assets/images/logo.png')}/>
 
-        <FormText> Usuario: </FormText>
-        <Input placeholder='Digite seu usuário...'/>
-        <FormText> Senha: </FormText>
-        <Input placeholder='Digite sua senha...'/>
+    // Container
+    <View style={styles.Container}>
+        <Image style={styles.Logo} source={require('../../assets/images/logo.png')}/>
         
-
-        <TextButtons>
+        {/* Form */}
+        <Text style={styles.FormText}> Usuario: </Text>
+        <TextInput style={styles.Input} placeholder='Digite seu usuário...'/>
+        <Text style={styles.FormText}> Senha: </Text>
+        <TextInput style={styles.Input} placeholder='Digite sua senha...'/>
+        
+        {/* Buttons */}
+        <View style={styles.TextButtons}>
 
           <TouchableOpacity onPress={()=>alert('me clicou')}>
-            <TButton>Cadastrar-se</TButton>
+            <Text style={styles.TButton}>Cadastrar-se</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>alert('me clicou')}>
-            <TButton>Esqueci a senha</TButton>
+            <Text style={styles.TButton}>Esqueci a senha</Text>
           </TouchableOpacity>
 
-        </TextButtons>
+        </View>
 
-        <LoginBtn onPress={()=>alert('me clicou')}>
-            <TBtn>Logar</TBtn>
-        </LoginBtn>
+        <TouchableOpacity style={styles.LoginBtn} onPress={()=>alert('me clicou')}>
+            <Text style={styles.TBtn}>Logar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.QrcodeBtn} onPress={()=>alert('me clicou')}>
+            <Text style={styles.TBtn}>Ler QRCode</Text>
+        </TouchableOpacity>
 
-        <QrcodeBtn onPress={()=>alert('me clicou')}>
-            <TBtn>Ler QRCode</TBtn>
-        </QrcodeBtn>
-
-    </Container>
+    </View>
   );
 }
