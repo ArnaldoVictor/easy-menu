@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-export default function Login() {
+export default function Login(props) {
   return (
 
     // Container
@@ -30,7 +30,7 @@ export default function Login() {
         <TouchableOpacity style={styles.LoginBtn} onPress={()=>alert('me clicou')}>
             <Text style={styles.TBtn}>Logar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.QrcodeBtn} onPress={()=>alert('me clicou')}>
+        <TouchableOpacity style={styles.QrcodeBtn} onPress={()=>props.navigation.navigate('QRCode')}>
             <Text style={styles.TBtn}>Ler QRCode</Text>
         </TouchableOpacity>
 
