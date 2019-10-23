@@ -2,6 +2,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Login from './pages/Login/index';
 import QRCode from './pages/QRCode/index';
+import SignUp from './pages/SignUp/index';
 
 const Routes = createAppContainer(
     createStackNavigator({
@@ -13,6 +14,12 @@ const Routes = createAppContainer(
         },
         QRCode:{
             screen:QRCode,
+            navigationOptions:{
+                header:null
+            }
+        },
+        SignUp:{
+            screen:SignUp,
             navigationOptions:{
                 header:null
             }

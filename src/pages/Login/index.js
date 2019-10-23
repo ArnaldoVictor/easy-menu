@@ -17,12 +17,12 @@ export default function Login(props) {
           <View style={styles.textContainer}>
             <Text style={styles.FormText}> Senha: </Text>
           </View>
-          <TextInput style={styles.Input} placeholder='Digite sua senha...'/>
+          <TextInput style={styles.Input} secureTextEntry={true} placeholder='Digite sua senha...'/>
         
         {/* Text Buttons and Buttons */}
         <View style={styles.TextButtons}>
 
-          <TouchableOpacity onPress={()=>alert('me clicou')}>
+          <TouchableOpacity onPress={()=>props.navigation.navigate('SignUp')}>
             <Text style={styles.TButton}>Cadastrar-se</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>alert('me clicou')}>
