@@ -15,7 +15,7 @@ export default function Login(props) {
         <Text style={styles.FormText}> Senha: </Text>
         <TextInput style={styles.Input} placeholder='Digite sua senha...'/>
         
-        {/* Buttons */}
+        {/* Text Buttons and Buttons */}
         <View style={styles.TextButtons}>
 
           <TouchableOpacity onPress={()=>alert('me clicou')}>

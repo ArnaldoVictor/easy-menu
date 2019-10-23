@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     QRMask:{
         ...StyleSheet.absoluteFill,
          alignItems:'center',
-         justifyContent:'center'
+         justifyContent:'center',
+         zIndex:1
     },
     QRArea:{
         width:width/2,

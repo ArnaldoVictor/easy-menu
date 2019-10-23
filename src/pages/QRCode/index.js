@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, StatusBar, Vibration } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import styles from './styles';
 
@@ -12,12 +12,14 @@ export default function QRCode(props) {
         if(object.type != null && barCodeType === null){
             setBarCodeType(object.type);
             setBarCodeData(object.data);
+            Vibration.vibrate(100);
         }
     }
 
     return (
         // Container
         <View style={styles.Container}>
+        <StatusBar hidden={true}/>
 
             {/* Back Button */}
             <TouchableOpacity  style={styles.BackButton} onPress={()=>props.navigation.goBack()}>
