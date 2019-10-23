@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 
 export default function Login(props) {
@@ -10,10 +10,14 @@ export default function Login(props) {
         <Image style={styles.Logo} source={require('../../assets/images/logo.png')}/>
         
         {/* Form */}
-        <Text style={styles.FormText}> Usuario: </Text>
-        <TextInput style={styles.Input} placeholder='Digite seu usuário...'/>
-        <Text style={styles.FormText}> Senha: </Text>
-        <TextInput style={styles.Input} placeholder='Digite sua senha...'/>
+          <View style={styles.textContainer}>
+            <Text style={styles.FormText}> Usuario: </Text>
+          </View>
+          <TextInput style={styles.Input} placeholder='Digite seu usuário...'/>      
+          <View style={styles.textContainer}>
+            <Text style={styles.FormText}> Senha: </Text>
+          </View>
+          <TextInput style={styles.Input} placeholder='Digite sua senha...'/>
         
         {/* Text Buttons and Buttons */}
         <View style={styles.TextButtons}>
