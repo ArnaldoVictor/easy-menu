@@ -41,7 +41,7 @@ export default function SignUp(props) {
 
       {/* Form */}
       <View style={styles.FormData}>
-      <TextInput style={styles.Input} placeholder='Nome' placeholderTextColor='#6A6A6A' onChangeText={(name)=>setName(name)}/>
+        <TextInput style={styles.Input} placeholder='Nome' placeholderTextColor='#6A6A6A' onChangeText={(name)=>setName(name)}/>
         <TextInput style={styles.Input} keyboardType='email-address' placeholder='Email' placeholderTextColor='#6A6A6A' onChangeText={(email)=>setEmail(email)}/>
         <TextInput style={styles.Input} secureTextEntry={true} placeholder='Senha'  placeholderTextColor='#6A6A6A' onChangeText={(password)=>setPassword(password)}/>
         <TextInput style={styles.Input} secureTextEntry={true} placeholder='Confirmar Senha'  placeholderTextColor='#6A6A6A' onChangeText={(ConfirmPass)=>setConfirmPass(ConfirmPass)}/>
