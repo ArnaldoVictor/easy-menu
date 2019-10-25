@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, ScrollView, StatusBar, TouchableOpacity, Alert } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
+import Easy from '../../services/firebase';
 
 export default function SignUp(props) {
   const [name, setName] = useState(null);
@@ -13,6 +14,14 @@ export default function SignUp(props) {
   const [cpf, setCpf] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [check, setCheck] = useState(false);
+
+  useEffect(()=>{
+    Easy.addAuthListener((user)=>{
+      if(user){
+        props.navigation.navigate('Home');
+      }
+    });
+  });
 
   function cpfMask(CPF){
     CPF = CPF
@@ -40,6 +49,11 @@ export default function SignUp(props) {
     .replace(/(\s\d{5})(\d)/, '$1-$2')
     .replace(/(-\d{4})\d+?$/, '$1' );
     setPhoneNumber(pNumber);
+  }
+
+  function signUp(){
+    Easy.createUser(email, password);
+    Easy.registerUserData(uid, name, cep, address, cpf, phoneNumber);
   }
 
   return (

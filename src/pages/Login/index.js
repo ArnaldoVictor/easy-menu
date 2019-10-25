@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
 import styles from './styles';
-import Easy from '../../services/Firebase/firebase';
+import Easy from '../../services/firebase';
 
 export default function Login(props) {
   const [email, setEmail] = useState(null);
@@ -54,6 +54,7 @@ export default function Login(props) {
       <Image style={styles.Logo} source={require('../../assets/images/logo.png')}/>
       
       {/* Form */}
+
         <View style={styles.textContainer}>
           <Text style={styles.FormText}> Email: </Text>
         </View>

@@ -17,6 +17,16 @@ export default {
     },
     addAuthListener(callback){
         return auth().onAuthStateChanged(callback);
+    },
+    registerUserData(uid, name, cep, address, cpf, phoneNumber){
+        let ref = database().ref('userData');
+        ref.child(uid).set({
+            name,
+            cep,
+            address,
+            cpf,
+            phoneNumber
+        })
     }
     
 };
