@@ -15,11 +15,31 @@ export default function SignUp(props) {
   const [check, setCheck] = useState(false);
 
   function cpfMask(CPF){
+    CPF = CPF
+    .replace(/\D/g, '')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+    .replace(/(-\d{2})\d+?$/, '$1');
     setCpf(CPF);
   }
 
   function cepMask(CEP){
+    CEP = CEP
+    .replace(/\D/g, '')
+    .replace(/(\d{5})(\d)/, '$1-$2')
+    .replace(/(-\d{3})\d+?$/, '$1');
     setCep(CEP);
+  }
+
+  function phoneMask(pNumber){
+    pNumber = pNumber
+    .replace(/\D/g, '')
+    .replace(/^(\d{1})/, '($1')
+    .replace(/(\(\d{2})(\d)/, '$1) $2')
+    .replace(/(\s\d{5})(\d)/, '$1-$2')
+    .replace(/(-\d{4})\d+?$/, '$1' );
+    setPhoneNumber(pNumber);
   }
 
   return (
@@ -30,7 +50,7 @@ export default function SignUp(props) {
       {/* Header */}
       <View style={styles.TextTop}>
         <Text style={styles.TextHeader}>Cadastre-se</Text>
-        <Text style={styles.TextDesc}>Crie sua conta agora</Text>
+        <Text style={styles.TextDesc}>Crie sua conta agora mesmo</Text>
       </View>
 
       {/* Logo */}
@@ -42,13 +62,13 @@ export default function SignUp(props) {
       {/* Form */}
       <View style={styles.FormData}>
         <TextInput style={styles.Input} placeholder='Nome' placeholderTextColor='#6A6A6A' onChangeText={(name)=>setName(name)}/>
-        <TextInput style={styles.Input} keyboardType='email-address' placeholder='Email' placeholderTextColor='#6A6A6A' onChangeText={(email)=>setEmail(email)}/>
-        <TextInput style={styles.Input} secureTextEntry={true} placeholder='Senha'  placeholderTextColor='#6A6A6A' onChangeText={(password)=>setPassword(password)}/>
-        <TextInput style={styles.Input} secureTextEntry={true} placeholder='Confirmar Senha'  placeholderTextColor='#6A6A6A' onChangeText={(ConfirmPass)=>setConfirmPass(ConfirmPass)}/>
-        <TextInput style={styles.Input} maxLength={9} keyboardType='numeric' placeholder='CEP'  placeholderTextColor='#6A6A6A' onChangeText={(CEP)=>cepMask(CEP)}/>
+        <TextInput style={styles.Input} keyboardType='email-address' placeholder='Email'placeholderTextColor='#6A6A6A' onChangeText={(email)=>setEmail(email)}/>
+        <TextInput style={styles.Input} secureTextEntry={true} placeholder='Senha' placeholderTextColor='#6A6A6A' onChangeText={(password)=>setPassword(password)}/>
+        <TextInput style={styles.Input} secureTextEntry={true} placeholder='Confirmar Senha' placeholderTextColor='#6A6A6A' onChangeText={(ConfirmPass)=>setConfirmPass(ConfirmPass)}/>
+        <TextInput style={styles.Input} maxLength={9} keyboardType='numeric' value={cep} placeholder='CEP' placeholderTextColor='#6A6A6A' onChangeText={(CEP)=>cepMask(CEP)}/>
         <TextInput style={styles.Input} placeholder='Endereço' placeholderTextColor='#6A6A6A' onChangeText={(Adress)=>setAdress(Adress)}/>
-        <TextInput style={styles.Input} maxLength={14} keyboardType='numeric' value={cpf} placeholder='CPF'  placeholderTextColor='#6A6A6A' onChangeText={(CPF)=>cpfMask(CPF)}/>
-        <TextInput style={styles.Input} maxLength={15} keyboardType='phone-pad' placeholder='Telefone'  placeholderTextColor='#6A6A6A' onChangeText={(PhoneNumber)=>setPhoneNumber(PhoneNumber)}/>
+        <TextInput style={styles.Input} maxLength={14} keyboardType='numeric' value={cpf} placeholder='CPF' placeholderTextColor='#6A6A6A' onChangeText={(CPF)=>cpfMask(CPF)}/>
+        <TextInput style={styles.Input} maxLength={15} keyboardType='phone-pad' value={phoneNumber} placeholder='Telefone' placeholderTextColor='#6A6A6A' onChangeText={(pNumber)=>phoneMask(pNumber)}/>
       </View>
 
       {/* Terms and Conditions */}
