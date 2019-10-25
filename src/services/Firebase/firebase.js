@@ -4,12 +4,12 @@ import { Alert } from 'react-native';
 
 export default { 
 
-    async login(email, password){
-        await auth().signInWithEmailAndPassword(email, password);
+    login(email, password){
+        auth().signInWithEmailAndPassword(email, password);
         return Alert.alert('Logado', 'Login feito com sucesso!');
     },
-    async logout(){
-        await auth().signOut();
+    logout(){
+        auth().signOut();
         return Alert.alert('Deslogado', 'Agora você está deslogado do sistema!');
     },
     createUser(email, password){
