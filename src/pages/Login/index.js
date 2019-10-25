@@ -1,14 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
 import styles from './styles';
+import Easy from '../../services/Firebase/firebase';
 
 export default function Login(props) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
+  useEffect(()=>{
+      Easy.addAuthListener((user)=>{
+        if(user){
+          props.navigation.navigate('Home');
+        }
+      })
+    ;
+  });
+
+  function signIn(){
+    if(email != null && password != null){
+
+      Easy.login(email, password).catch(error=>{
+
+        switch(error.code){
+          case 'auth/invalid-email':
+            Alert.alert('ERRO', 'Email inválido');
+            break;
+          case 'auth/user-disabled':
+            Alert.alert('ERRO', 'Está conta foi desativada');
+            break;
+          case 'auth/user-not-found':
+            Alert.alert('ERRO', 'Usuário não encontrado!');
+            break;
+          case 'auth/wrong-password':
+            Alert.alert('ERRO', 'Verifique se os dados foram digitados corretamente!');
+            break;
+          default:
+            Alert.alert('ERRO', 'Algo aconteceu de errado, tente novamente mais tarde!');
+            break;
+          
+        }
+      });
+    }else{
+      Alert.alert('ERRO', 'É necessário preencher todos os campos!');
+    }
+  }
+
   return (
 
     // Container
+
     <View style={styles.Container}>
       <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
       <Image style={styles.Logo} source={require('../../assets/images/logo.png')}/>
@@ -33,7 +73,7 @@ export default function Login(props) {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.LoginBtn} onPress={()=>Alert.alert('Logar', 'Em desenvolvimento!')}>
+      <TouchableOpacity style={styles.LoginBtn} onPress={signIn}>
           <Text style={styles.TBtn}>Logar</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.QrcodeBtn} onPress={()=>props.navigation.navigate('QRCode')}>
@@ -42,4 +82,5 @@ export default function Login(props) {
 
     </View>
   );
+
 }

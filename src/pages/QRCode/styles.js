@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     },
     BackImage:{
         width:32,
-        height:28
+        height:28,
+        zIndex:99
     },
     QRMask:{
         ...StyleSheet.absoluteFill,

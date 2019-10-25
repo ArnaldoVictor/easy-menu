@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, StatusBar, Vibration } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import styles from './styles';
 
-export default function QRCode(props) {
+export default function QRCode({navigation}) {
     const [camera, setCamera] = useState(null);
     const [barCodeType, setBarCodeType] = useState(null);
     const [barCodeData, setBarCodeData] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+
+    useEffect(()=>{
+        setTimeout(()=>setLoading(false), 200);
+    }, []);
 
     function readCode(object){
         if(object.type != null && barCodeType === null){
@@ -22,7 +27,7 @@ export default function QRCode(props) {
         <StatusBar hidden={true}/>
 
             {/* Back Button */}
-            <TouchableOpacity  style={styles.BackButton} onPress={()=>props.navigation.goBack()}>
+            <TouchableOpacity  style={styles.BackButton} onPress={()=>navigation.navigate('Login')}>
                 <Image style={styles.BackImage} source={require('../../assets/images/white-arrow.png')} />
             </TouchableOpacity>
 
@@ -40,34 +45,36 @@ export default function QRCode(props) {
                 }}
                 onBarCodeRead={readCode}
             />
-
+            
             {/* QRCode Mask */}
-            <View style={styles.QRMask}>
+            {isLoading === false &&
+                <View style={styles.QRMask}>
 
-                {/* QRCode Scanning Area */}
-                <View style={styles.QRArea}>
+                    {/* QRCode Scanning Area */}
+                    <View style={styles.QRArea}>
 
-                    {/* Top Area */}
-                    <View style={styles.DivArea}>
+                        {/* Top Area */}
+                        <View style={styles.DivArea}>
 
-                        <View style={styles.leftTop}></View>
-                        <View style={{ flex:1 }}/>
-                        <View style={styles.rightTop}></View>
-                        
-                    </View>
+                            <View style={styles.leftTop}></View>
+                            <View style={{ flex:1 }}/>
+                            <View style={styles.rightTop}></View>
+                            
+                        </View>
 
-                    <View style={{ flex:1 }} />
+                        <View style={{ flex:1 }} />
 
-                    {/* Bottom Area */}
-                    <View style={styles.DivArea}>
-                        
-                        <View style={styles.leftBottom}></View>
-                        <View style={{ flex:1 }}/>
-                        <View style={styles.rightBottom}></View>
+                        {/* Bottom Area */}
+                        <View style={styles.DivArea}>
+                            
+                            <View style={styles.leftBottom}></View>
+                            <View style={{ flex:1 }}/>
+                            <View style={styles.rightBottom}></View>
 
+                        </View>
                     </View>
                 </View>
-            </View>
+            }
         </View>
     );
 }

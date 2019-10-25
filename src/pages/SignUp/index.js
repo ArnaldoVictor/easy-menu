@@ -65,7 +65,7 @@ export default function SignUp(props) {
         <TouchableOpacity style={styles.SignUp} onPress={()=>Alert.alert('Cadastrar', 'Em desenvolvimento!')}>
           <Text style={styles.TBtn}>Cadastrar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.Back} onPress={()=>props.navigation.goBack()}>
+        <TouchableOpacity style={styles.Back} onPress={()=>props.navigation.navigate('Login')}>
           <Text style={styles.TBtn}>Voltar</Text>
         </TouchableOpacity>
       </View>
