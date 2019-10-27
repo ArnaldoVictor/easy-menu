@@ -4,22 +4,45 @@ import { Alert } from 'react-native';
 
 export default { 
 
-    login(email, password){
-        auth().signInWithEmailAndPassword(email, password);
+    async login(email, password){
+        await auth().signInWithEmailAndPassword(email, password);
         return Alert.alert('Logado', 'Login feito com sucesso!');
     },
+
     logout(){
         auth().signOut();
         return Alert.alert('Deslogado', 'Agora você está deslogado do sistema!');
     },
+
     createUser(email, password){
-        return database().createUserWithEmailAndPassword(email, password);
+        return auth().createUserWithEmailAndPassword(email, password).catch( error =>{
+            switch(error.code){
+                case 'auth/email-already-in-use':
+                    Alert.alert('ERRO', 'E-mail JÁ ESTÁ EM USO')
+                    break;
+                case 'auth/invalid-email':
+                    Alert.alert('ERRO', 'E-mail inválido')
+                    break;
+                case 'auth/operation-not-allowed':
+                    Alert.alert('ERRO', 'Operação não permitida!')
+                    break;
+                case 'auth/weak-password':
+                    Alert.alert('ERRO', 'Senha muito fraca!')
+                    break;
+                default:
+                    Alert.alert('ERRO', 'Algo aconteceu de errado tente novamente mais tarde!')
+                    break;
+            }
+        } );
     },
+
     addAuthListener(callback){
         return auth().onAuthStateChanged(callback);
     },
+
     registerUserData(uid, name, cep, address, cpf, phoneNumber){
         let ref = database().ref('userData');
+        let key = ref.
         ref.child(uid).set({
             name,
             cep,
@@ -27,6 +50,8 @@ export default {
             cpf,
             phoneNumber
         })
+
+        return Alert.alert('Cadastrado', 'Cadastrado com sucesso!');
     }
     
 };

@@ -25,6 +25,12 @@ const StackScreens = createStackNavigator({
         navigationOptions:{
             header:null
         }
+    },
+    SignUp:{
+        screen:SignUp,
+        navigationOptions:{
+            header:null
+        }
     }
 });
 
@@ -32,7 +38,6 @@ const StackScreens = createStackNavigator({
 const Routes = createAppContainer(
     createAnimatedSwitchNavigator({
         StackScreens,
-        SignUp,
         HomeScreen
     }, {
         transition: (

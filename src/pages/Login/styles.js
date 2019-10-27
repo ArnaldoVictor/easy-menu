@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         lineHeight: 19,
-        marginRight: 210,
         marginBottom: 2
     },
     textContainer:{
+        flexDirection:'row',
         width:280,
         justifyContent:'flex-start'
     },

@@ -2,12 +2,9 @@ import { StyleSheet, Dimensions } from 'react-native';
 const width = Dimensions.get('screen').width;
 
 const styles = StyleSheet.create({
-    Container:{
-
-    },
     TextTop:{
-        marginTop:40,
-        marginLeft:40
+        width:280,
+        marginTop:30
     },
     TextHeader:{
         fontFamily: 'Roboto',
@@ -46,7 +43,6 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: 'rgba(196, 196, 196, 0.42)',
         borderRadius: 20,
-        marginBottom: 20,
         paddingHorizontal: 15
     },
     CheckBoxArea:{
@@ -62,8 +58,8 @@ const styles = StyleSheet.create({
     SignUp:{
         width: 280,
         height: 50,
-        backgroundColor: '#3B5998',
         borderRadius: 25,
+        backgroundColor:'#3B5998',
         shadowColor: 'rgba(0, 0, 0, 0.2)',
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 4,
@@ -92,6 +88,13 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: 0, height: 2},
         textShadowRadius: 4,
         color: '#FFFFFF'
+    },
+    error:{
+        fontSize:12,
+        lineHeight:18,
+        color:'#B33A3A',
+        fontWeight:'bold',
+        marginBottom:5
     }
     
 });
