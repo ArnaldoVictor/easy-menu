@@ -8,9 +8,17 @@ import Login from './pages/Login/index';
 import QRCode from './pages/QRCode/index';
 import SignUp from './pages/SignUp/index';
 import Home from './pages/Home/index';
+import NewProduct from './pages/NewProduct/index';
 
-const HomeScreen = createDrawerNavigator({
-    Home
+
+const DrawerScreens = createDrawerNavigator({
+    Home,
+    NewProduct:{
+        screen:NewProduct,
+        navigationOptions:{
+            title:'Cadastrar Produto'
+        }
+    }
 });
 
 const StackScreens = createStackNavigator({
@@ -38,7 +46,7 @@ const StackScreens = createStackNavigator({
 const Routes = createAppContainer(
     createAnimatedSwitchNavigator({
         StackScreens,
-        HomeScreen
+        DrawerScreens
     }, {
         transition: (
             <Transition.Together>

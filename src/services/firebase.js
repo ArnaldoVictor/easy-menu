@@ -40,10 +40,11 @@ export default {
         return auth().onAuthStateChanged(callback);
     },
 
-    registerUserData(uid, name, cep, address, cpf, phoneNumber){
-        let ref = database().ref('userData');
+    registerUserData(uid, name, cep, address, cpf, phoneNumber, status){
+        let ref = database().ref('user-data');
         let key = ref.
         ref.child(uid).set({
+            status,
             name,
             cep,
             address,
