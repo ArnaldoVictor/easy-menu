@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, FlatList, TextInput, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, StatusBar, Dimensions } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import styles from './styles';
 
 export default function newProduct(props) {
     const [list, setList] = useState([]);
+    const [image, setImage] = useState(null);
+    const width = Dimensions.get('screen').width;
 
     function addItem(item){
-        setList([...list, item]);
+        if(item !== ''){
+            setList([...list, item]);
+        }
     }
 
     function removeItem(item) {
@@ -26,6 +31,12 @@ export default function newProduct(props) {
     }
 
     function uploadImage(){
+        ImagePicker.launchImageLibrary({tintColor:'#FF0000'}, (response)=>{
+            if(response.uri){
+                setImage(response.uri);
+            }
+
+        });
 
     }
 
@@ -45,24 +56,32 @@ export default function newProduct(props) {
     }
     
     return (
+        //Container
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
+
+            {/* Box Upload */}
             <View style={styles.uploadBox}>
                 <TouchableOpacity style={styles.backButton} onPress={()=>props.navigation.goBack()}>
                     <Image style={styles.backImage} source={require('../../assets/images/white-arrow.png')}/>
                 </TouchableOpacity>
                 <View style={styles.uploadArea}>
-                    <TouchableOpacity style={styles.btnAddImage}>
-                        <Text style={styles.addImage}>+</Text>
+                    <TouchableOpacity style={image===null?styles.btnAddImage:styles.foto} onPress={uploadImage}>
+                        {image !== null && <Image resizeMode='stretch' style={styles.foto} source={{uri:image}} />}
+                        {image === null && <Text style={styles.addImage}>+</Text>}
                     </TouchableOpacity>
                 </View>
             </View>
+
+            {/* Form */}
             <View style={styles.newProduct}>
                 <Text style={styles.registerProduct}>Cadastrar Produto</Text>
                 <Formik
                     initialValues={{
                         name:'',
                         desc:'',
-                        price:''    
+                        price:'',
+                        item:''    
                     }}
                     onSubmit={newProduct}
                 >
@@ -99,7 +118,7 @@ export default function newProduct(props) {
                                     placeholder='Adicionar Item'
                                     placeholderTextColor='#6A6A6A'
                                     onChangeText={handleChange('item')}
-                                    style={[styles.input, {width:214}]}
+                                    style={[styles.input, {width:width-160}]}
                                     values={values.item}
                                 />
                                 <TouchableOpacity style={styles.btnAddItem} onPress={()=>addItem(values.item)}>

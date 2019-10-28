@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 const width = Dimensions.get('screen').width;
+const height = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
     container:{
@@ -8,6 +9,7 @@ const styles = StyleSheet.create({
         marginBottom:20
     },
     backButton:{
+        zIndex:99,
         width:32,
         height:28,
         marginTop:30,
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     uploadBox:{
         width:width,
         height:235,
-        borderWidth:0.2,
+        borderBottomWidth:0.2,
     },
     newProduct:{
         flex:1,
@@ -48,10 +50,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 24,
         lineHeight: 28,
-        width:width-140
+        width:width-100
     },
     input:{
-        width: 280,
+        width: width-100,
         height: 40,
         backgroundColor: 'rgba(196, 196, 196, 0.42)',
         borderRadius: 20,
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         justifyContent:'space-between',
-        width:280
+        width:width-100
     },
     btnAddItem:{
         width: 54,
@@ -74,8 +76,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#3B5998',
         borderRadius: 20,
         justifyContent:'center',
-        alignItems:'center',
-        marginLeft:10
+        alignItems:'center'
     },
     addItem:{
         fontFamily: 'Roboto',
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         marginTop:20,
         backgroundColor: '#3B5998',
         marginTop:0,
-        width: 280,
+        width: width-100,
         height: 50,
         borderRadius: 25,
         textShadowColor: 'rgba(0, 0, 0, 0.2)',
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginBottom:10,
         justifyContent:'space-between',
-        width:280
+        width:width-120
     },
     removeItem:{
         fontSize:20,
@@ -133,6 +134,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         lineHeight: 23,
         color:'#B33A3A'
+    },
+    foto:{
+        width:width,
+        height:237,
+        marginTop:-30
     }
 
 });

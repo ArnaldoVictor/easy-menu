@@ -10,9 +10,15 @@ import SignUp from './pages/SignUp/index';
 import Home from './pages/Home/index';
 import NewProduct from './pages/NewProduct/index';
 
+
 const DrawerScreens = createDrawerNavigator({
     Home,
-    NewProduct
+    NewProduct:{
+        screen:NewProduct,
+        navigationOptions:{
+            title:'Cadastrar Produto'
+        }
+    }
 });
 
 const StackScreens = createStackNavigator({
