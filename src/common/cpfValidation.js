@@ -1,7 +1,7 @@
 export default {
     
     testCPF(strCPF) {
-        var cpf = strCPF.replace('.', '').replace('.', '').replace('-', '');
+        let cpf = strCPF.replace('.', '').replace('.', '').replace('-', '');
         if(cpf.length > 11){
           let tempCpf = '';
           for(let i=0;i<11;i++){
@@ -9,8 +9,8 @@ export default {
           }
           cpf = tempCpf;
         }
-        var Sum;
-        var Rest;
+        let Sum;
+        let Rest;
         Sum = 0;
       if (cpf == "00000000000") return false;
          

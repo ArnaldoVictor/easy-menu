@@ -44,7 +44,6 @@ export default function SignUp(props) {
           await Easy.createUser(values.email, values.password);
           Easy.addAuthListener( async (user)=>{
             if(user){
-              console.log(user.uid);
               await Easy.registerUserData(user.uid, values.name, values.cep, values.address, values.cpf, values.phoneNumber, 0);
               await props.navigation.navigate('Home');
             }
