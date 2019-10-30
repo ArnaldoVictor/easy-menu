@@ -55,18 +55,22 @@ export default {
         return Alert.alert('Cadastrado', 'Cadastrado com sucesso!');
     },
 
-    registerProduct(name, desc, price, items = []){
+    registerProduct(name, desc, price, items = [], urlImage){
         let ref = database().ref('products');
         ref.child(name).set({
             name,
             desc,
             price,
-            items
+            items,
+            urlImage
         });
     },
 
-    refUploadImage(){
-        return storage().ref()
+    refUploadImage(path){
+        return storage().ref().child(path)
+    },
+    getImageURL(path){
+        return storage().ref(path).getDownloadURL()
     }
     
 };

@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, Stat
 import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import styles from './styles';
+import Mask from '../../common/textMask';
 import Easy from '../../services/firebase';
 
 export default (props) => {
     const [list, setList] = useState([]);
     const [image, setImage] = useState({});
-    const [urlImage, setUrlImage] = useState({});
+    const [urlImage, setUrlImage] = useState('');
     const width = Dimensions.get('screen').width;
 
     function addItem(item){
@@ -29,19 +30,23 @@ export default (props) => {
     }
 
     async function newProduct(values){
-        if(values.name !== '', values.desc !== '' && values.price !== ''){
-            const storageRef = Easy.refUploadImage();
-            const path = `Images/${values.name}.jpg`;
+        if(values.name !== '', values.desc !== '' && values.price !== 'R$' && values.price !== '' && image !== {}){
+            const path = `images/${values.name}.jpg`;
+            const storageRef = Easy.refUploadImage(path);
             const metadata = {
                 contentType: "image/jpeg"
             };
             
-            await storageRef.child(path).putString(image.displayImage, 'base64', metadata).then(async ()=>{
-            console.log('Uploaded a base64 string!');
+            await storageRef.putString(image.displayImage, 'base64', metadata).then(()=>{
+                Easy.getImageURL(path).then(async (url)=>{
+                    setUrlImage(url);
+                    await Easy.registerProduct(values.name, values.desc, values.price, list, url);
+                });
+                Alert.alert('Cadastro', 'Cadastro feito com sucesso!')
 
-            })
-            
-            //await Easy.registerProduct(values.name, values.desc, values.price, list);
+            }) 
+        }else{
+            Alert.alert('ERRO', 'Preencha os dados corretamente')
         }
     }
 
@@ -89,7 +94,7 @@ export default (props) => {
     return (
         //Container
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            {console.log("depois do setImage = ", image)}
+            {console.log("depois do setImage = ", urlImage)}
             <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
 
             {/* Box Upload */}
@@ -142,8 +147,10 @@ export default (props) => {
                                 placeholder='Preço'
                                 placeholderTextColor='#6A6A6A'
                                 onChangeText={handleChange('price')}
-                                value={values.price}
+                                keyboardType='number-pad'
+                                value={Mask.priceMask(values.price)}
                                 style={styles.input}
+                                maxLength={16}
                             />
 
                             <View style={styles.addItemArea}>
@@ -166,7 +173,6 @@ export default (props) => {
                             <TouchableOpacity style={styles.registerBtn} onPress={handleSubmit}>
                                 <Text style={styles.TBtn}>Cadastrar</Text>
                             </TouchableOpacity>
-
 
                         </ React.Fragment>
                     )}

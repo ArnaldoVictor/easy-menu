@@ -26,6 +26,16 @@ export default {
       .replace(/(\s\d{5})(\d)/, '$1-$2')
       .replace(/(-\d{4})\d+?$/, '$1' );
       return pNumber;
-    }
+    },
     
+    priceMask(price){
+      price = price.replace(/\D/g, '')
+      .replace(/^(\d{1})/, "R$$1")
+      .replace(/(R\$\d{3})(\d)/, '$1.$2')
+      .replace(/(\.\d{3})(\d)/, '$1.$2')
+      if(price.length > 6){
+        price = price.replace(/(\.\d{3})(\d)/, '$1,$2')
+      }
+      return price;
+    }
 }
