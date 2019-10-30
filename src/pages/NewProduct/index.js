@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, StatusBar, Dimensions } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
-import Base64 from 'Base64';
 import styles from './styles';
 import Easy from '../../services/firebase';
 
@@ -31,25 +30,17 @@ export default (props) => {
 
     async function newProduct(values){
         if(values.name !== '', values.desc !== '' && values.price !== ''){
-
-            const {path} = image.image
             const storageRef = Easy.refUploadImage();
-
-        
-            const pathT = `Images/${values.name}.jpg`;
+            const path = `Images/${values.name}.jpg`;
             const metadata = {
                 contentType: "image/jpeg"
             };
-            console.log(Base64.btoa(path));
-
-            console.log(image.displayImage);
             
-            await storageRef.child(pathT).putString(image.displayImage, 'base64', metadata).then(async ()=>{
+            await storageRef.child(path).putString(image.displayImage, 'base64', metadata).then(async ()=>{
             console.log('Uploaded a base64 string!');
-            //console.log(data);
+
             })
             
-
             //await Easy.registerProduct(values.name, values.desc, values.price, list);
         }
     }
@@ -70,11 +61,9 @@ export default (props) => {
 
         await ImagePicker.showImagePicker(options, (response)=>{
             if(response.uri){
-                const displayImage = 'data:image/jpeg;base64,' + response.data ;
+                const displayImage = response.data ;
                 const {path, width, height} = response;
                 const newImage = { path, width, height };
-                console.log('TESTE 123', path); 
-
                 
                 setImage({ image: newImage, displayImage, uri:response.uri});
 
@@ -95,7 +84,7 @@ export default (props) => {
                 )   
             )
         )
-    } // era pra ter dado console.log?
+    }
     
     return (
         //Container
