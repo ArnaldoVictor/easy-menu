@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, StatusBar, Dimensions } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
+import Base64 from 'Base64';
 import styles from './styles';
-import RNFetchBlob from 'rn-fetch-blob';
 import Easy from '../../services/firebase';
-
-window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-window.Blob = RNFetchBlob.polyfill.Blob;
-
 
 export default (props) => {
     const [list, setList] = useState([]);
     const [image, setImage] = useState({});
-    const [urlImage, setUrlImage] = useState(null);
+    const [urlImage, setUrlImage] = useState({});
     const width = Dimensions.get('screen').width;
 
     function addItem(item){
@@ -35,41 +31,26 @@ export default (props) => {
 
     async function newProduct(values){
         if(values.name !== '', values.desc !== '' && values.price !== ''){
-            // const { path } = image; 
-            // console.log('(Funcao do upload) path = ', path);
-            // const storageRef = Easy.refUploadImage();
-            // const pathT = `product_${Math.floor(Math.random() * 1000 + 1)}`;
-            // const metadata = { contentType: "image/jpeg" };
-            // const mime = 'image/jpeg';
-            // const blob = RNFetchBlob.polyfill.Blob.build(image.displayImage, {type:mime+';BASE64'});
 
-            // console.log(image.image);
-            // await storageRef.child(`item/imagem.jpg`).put(blob, metadata);
-            // await storageRef
-            //     .child(`item/${pathT}`)
-            //     .getDownloadURL()
-            //     .then((image) => {
-            //         setUrlImage( image );     
-            //     }).catch(error => {
-            //         Alert.alert(error.code);
-            //     });
+            const {path} = image.image
+            const storageRef = Easy.refUploadImage();
 
-            const path = values.name+'/'+values.name+'.jpg';
-            const mime = 'image/jpeg';
-            const imagem = Easy.refUploadImage(path);
+        
+            const pathT = `Images/${values.name}.jpg`;
+            const metadata = {
+                contentType: "image/jpeg"
+            };
+            console.log(Base64.btoa(path));
 
-            RNFetchBlob.fs.readFile(image.uri, (data)=>{
-                return RNFetchBlob.polyfill.Blob.build(data, {type:mime+';BASE64'})
-            }).then((blob) => {
-                imagem.put(blob, {contentType:mime}).then(() =>{
-                    blob.close()
-                    Alert.alert('Upload', 'Upload feito com sucesso!')
-                }).catch(error=>{
-                    Alert.alert('ERRO', error.code)
-                })
-            });
+            console.log(image.displayImage);
+            
+            await storageRef.child(pathT).putString(image.displayImage, 'base64', metadata).then(async ()=>{
+            console.log('Uploaded a base64 string!');
+            //console.log(data);
+            })
+            
 
-            await Easy.registerProduct(values.name, values.desc, values.price, list);
+            //await Easy.registerProduct(values.name, values.desc, values.price, list);
         }
     }
 
@@ -80,6 +61,7 @@ export default (props) => {
             takePhotoButtonTitle: 'Tirar foto',
             chooseFromLibraryButtonTitle: 'Carregar da Galeria',
             cancelButtonTitle: 'Cancelar',
+            base64: true,
             storageOptions: {
                 skipBackup: true,
                 path: 'images',
@@ -88,7 +70,7 @@ export default (props) => {
 
         await ImagePicker.showImagePicker(options, (response)=>{
             if(response.uri){
-                const displayImage = { uri: 'data:image/jpeg;base64,' + response.data };
+                const displayImage = 'data:image/jpeg;base64,' + response.data ;
                 const {path, width, height} = response;
                 const newImage = { path, width, height };
                 console.log('TESTE 123', path); 

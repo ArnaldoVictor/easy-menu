@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     registerBtn:{
         marginTop:20,
         backgroundColor: '#3B5998',
-        marginTop:0,
         width: width-100,
         height: 50,
         borderRadius: 25,
@@ -140,7 +139,6 @@ const styles = StyleSheet.create({
         height:237,
         marginTop:-30
     }
-
 });
 
 export default styles;

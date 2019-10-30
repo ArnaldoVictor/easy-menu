@@ -65,8 +65,8 @@ export default {
         });
     },
 
-    refUploadImage(path){
-        return storage().ref().child(path)
+    refUploadImage(){
+        return storage().ref()
     }
     
 };

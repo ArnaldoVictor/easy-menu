@@ -15,6 +15,7 @@
     "@react-native-firebase/auth": "^6.0.3",
     "@react-native-firebase/database": "^6.0.3",
     "@react-native-firebase/storage": "^6.0.3",
+    "Base64": "^1.0.2",
     "formik": "^2.0.1",
     "react": "16.9.0",
     "react-native": "0.61.2",
@@ -26,7 +27,6 @@
     "react-navigation-animated-switch": "^0.3.2",
     "react-navigation-drawer": "^2.2.2",
     "react-navigation-stack": "^1.10.2",
-    "rn-fetch-blob": "^0.11.2",
     "yup": "^0.27.0"
   },
   "devDependencies": {
