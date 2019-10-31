@@ -4,6 +4,7 @@ import styles from './styles';
 import Easy from '../../services/firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ItemMenu from '../../components/Item-Menu/index';
+import Promotion from '../../components/Promotion/index';
 
 
 export default function Home(props) {
@@ -60,7 +61,7 @@ export default function Home(props) {
           <FlatList 
             horizontal={true}
             data={tempList}
-            renderItem={({item})=><ItemMenu />}
+            renderItem={({item})=><Promotion />}
             keyExtractor={(item, index)=> item.key.toString()}
             style={styles.list}
             showsHorizontalScrollIndicator={false}

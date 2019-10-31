@@ -94,7 +94,6 @@ export default (props) => {
     return (
         //Container
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            {console.log("depois do setImage = ", urlImage)}
             <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
 
             {/* Box Upload */}
