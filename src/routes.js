@@ -9,6 +9,7 @@ import QRCode from './pages/QRCode/index';
 import SignUp from './pages/SignUp/index';
 import Home from './pages/Home/index';
 import NewProduct from './pages/NewProduct/index';
+import SignOut from './pages/SignOut/index';
 
 
 const DrawerScreens = createDrawerNavigator({
@@ -17,6 +18,12 @@ const DrawerScreens = createDrawerNavigator({
         screen:NewProduct,
         navigationOptions:{
             title:'Cadastrar Produto'
+        }
+    },
+    SignOut:{
+        screen:SignOut,
+        navigationOptions:{
+            title:'Deslogar'
         }
     }
 });

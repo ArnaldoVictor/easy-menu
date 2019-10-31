@@ -4,7 +4,7 @@ import styles from './styles';
 import Easy from '../../services/firebase';
 import { Formik } from 'formik';
 
-export default function Login(props) {
+export default (props) => {
 
   useEffect(()=>{
     Easy.addAuthListener((user)=>{
@@ -49,7 +49,7 @@ export default function Login(props) {
     // Container
 
     <View style={styles.Container}>
-      <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
+      
       <Image style={styles.Logo} source={require('../../assets/images/logo.png')}/>
       
       {/* Form */}

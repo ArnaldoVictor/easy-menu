@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, StatusBar, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, Dimensions } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
 import styles from './styles';
@@ -9,7 +9,6 @@ import Easy from '../../services/firebase';
 export default (props) => {
     const [list, setList] = useState([]);
     const [image, setImage] = useState({});
-    const [urlImage, setUrlImage] = useState('');
     const width = Dimensions.get('screen').width;
 
     function addItem(item){
@@ -29,7 +28,9 @@ export default (props) => {
     
     }
 
+
     async function newProduct(values){
+
         if(values.name !== '', values.desc !== '' && values.price !== 'R$' && values.price !== '' && image !== {}){
             const path = `images/${values.name}.jpg`;
             const storageRef = Easy.refUploadImage(path);
@@ -39,7 +40,6 @@ export default (props) => {
             
             await storageRef.putString(image.displayImage, 'base64', metadata).then(()=>{
                 Easy.getImageURL(path).then(async (url)=>{
-                    setUrlImage(url);
                     await Easy.registerProduct(values.name, values.desc, values.price, list, url);
                 });
                 Alert.alert('Cadastro', 'Cadastro feito com sucesso!')
@@ -48,6 +48,7 @@ export default (props) => {
         }else{
             Alert.alert('ERRO', 'Preencha os dados corretamente')
         }
+
     }
 
     async function uploadImage(){       
@@ -94,7 +95,6 @@ export default (props) => {
     return (
         //Container
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
 
             {/* Box Upload */}
             <View style={styles.uploadBox}>  
@@ -117,7 +117,7 @@ export default (props) => {
                         name:'',
                         desc:'',
                         price:'',
-                        item:''    
+                        item:'' 
                     }}
                     onSubmit={values => newProduct(values)}
                 >

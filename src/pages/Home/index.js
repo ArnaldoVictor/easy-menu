@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Button, ScrollView, TouchableOpacity, TextInput, FlatList, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import styles from './styles';
 import Easy from '../../services/firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,35 +7,54 @@ import ItemMenu from '../../components/Item-Menu/index';
 import Promotion from '../../components/Promotion/index';
 
 
-export default function Home(props) {
-  const tempList = [
-    {key:1, teste:1},
-    {key:2, teste:2},
-    {key:3, teste:3},
-    {key:4, teste:1},
-    {key:5, teste:2},
-    {key:6, teste:1},
-    {key:7, teste:2},
-    {key:8, teste:1},
-    {key:9, teste:2},
-    {key:10, teste:1},
-    {key:11, teste:2},
-    {key:12, teste:1},
-    {key:13, teste:2},
-    {key:14, teste:1},
-    {key:15, teste:2},
-    {key:16, teste:1},
-    {key:17, teste:2}
-    ];
+export default (props) => {
+  const [products, setProducts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  function signOut(){
-    Easy.logout();
-    props.navigation.navigate('Login');
+  function onRefresh(){
+    setRefreshing(true);
+    const ref = Easy.getProducts();
+    ref.once('value', loadLists);
+
+    setTimeout(()=>setRefreshing(false), 2000);
+  }
+
+  function loadLists(snapshot){
+    const list = [];
+
+    snapshot.forEach((product)=>{
+      list.push({
+        key:product.key,
+        name:product.val().name,
+        price:product.val().price,
+        url:product.val().urlImage,
+        desc:product.val().desc
+      });
+    });
+    setProducts(list);
+
+  }
+
+  useEffect(()=>{
+
+    const ref = Easy.getProducts();
+    ref.once('value', loadLists);
+    setLoading(false);
+
+  });
+
+  if(loading){
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size='large' color='#0000FF' />
+      </View>
+    )
   }
 
   return (
     <React.Fragment>
-      <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
+      
       <View style={styles.containerHeader}>
 
         <TouchableOpacity onPress={()=>props.navigation.toggleDrawer()}>
@@ -55,56 +74,58 @@ export default function Home(props) {
         
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{marginBottom:40}}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl colors={['#1976d2']}refreshing={refreshing} onRefresh={onRefresh} />}
+      >    
+        <View style={{marginBottom:30}}>
           <Text style={styles.titleSection}>Promoções</Text>
           <FlatList 
             horizontal={true}
-            data={tempList}
+            data={products}
             renderItem={({item})=><Promotion />}
-            keyExtractor={(item, index)=> item.key.toString()}
+            keyExtractor={(item)=> item.key}
             style={styles.list}
             showsHorizontalScrollIndicator={false}
           />
         </View>
 
-        <View style={{marginBottom:40}}>
+        <View style={{marginBottom:30}}>
           <Text style={styles.titleSection}>Categorias</Text>
           <FlatList 
             horizontal={true}
-            data={tempList}
-            renderItem={({item})=><ItemMenu />}
-            keyExtractor={(item, index)=> item.key.toString()}
+            data={products}
+            renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} desc/>}
+            keyExtractor={(item)=> item.key}
             style={styles.list}
             showsHorizontalScrollIndicator={false}
           />
         </View>
 
-        <View style={{marginBottom:40}}>
-          <Text style={styles.titleSection}>Pratos Populares</Text>
+        <View style={{marginBottom:30}}>
+          <Text style={styles.titleSection}>Populares</Text>
           <FlatList 
             horizontal={true}
-            data={tempList}
-            renderItem={({item})=><ItemMenu />}
-            keyExtractor={(item, index)=> item.key.toString()}
+            data={products}
+            renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price}/>}
+            keyExtractor={(item)=> item.key}
             style={styles.list}
             showsHorizontalScrollIndicator={false}
           />
         </View>
 
-        <View style={{marginBottom:40}}>
+        <View style={{marginBottom:30}}>
           <Text style={styles.titleSection}>Recomendamos</Text>
           <FlatList 
             horizontal={true}
-            data={tempList}
-            renderItem={({item})=><ItemMenu />}
-            keyExtractor={(item, index)=> item.key.toString()}
+            data={products}
+            renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} />}
+            keyExtractor={(item)=> item.key}
             style={styles.list}
             showsHorizontalScrollIndicator={false}
           />
         </View>
 
-          <Button title='Deslogar' onPress={signOut} style={{marginTop:40}}/>
       </ScrollView>
       
     </React.Fragment>

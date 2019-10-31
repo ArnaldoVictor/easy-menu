@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity, StatusBar, Vibration } from 
 import { RNCamera } from 'react-native-camera';
 import styles from './styles';
 
-export default function QRCode({navigation}) {
+export default ({navigation}) => {
     const [camera, setCamera] = useState(null);
     const [barCodeType, setBarCodeType] = useState(null);
     const [barCodeData, setBarCodeData] = useState(null);

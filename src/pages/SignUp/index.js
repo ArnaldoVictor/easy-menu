@@ -8,7 +8,7 @@ import Easy from '../../services/firebase';
 import Mask from '../../common/textMask';
 import verifyCPF from '../../common/cpfValidation';
 
-export default function SignUp(props) {
+export default (props) => {
   const [check, setCheck] = useState(false);
   const validations = yup.object().shape({
     name: yup.string()
@@ -65,7 +65,6 @@ export default function SignUp(props) {
       showsVerticalScrollIndicator={false} 
       contentContainerStyle={{ alignItems:'center', justifyContent:'center'}}
     >
-      <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
 
       {/* Header */}
       <View style={styles.TextTop}>

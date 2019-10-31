@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         marginBottom:20
+
     },
     navIcon:{
         marginRight:30
@@ -41,6 +42,11 @@ const styles = StyleSheet.create({
     },
     list:{
         width:width
+    },
+    loading:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
     }
 });
 

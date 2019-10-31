@@ -57,20 +57,30 @@ export default {
 
     registerProduct(name, desc, price, items = [], urlImage){
         let ref = database().ref('products');
-        ref.child(name).set({
+        let key = ref.push().key;
+        ref.child(key).set({
             name,
             desc,
             price,
             items,
-            urlImage
+            urlImage,
+            sold:0
         });
     },
 
     refUploadImage(path){
         return storage().ref().child(path)
     },
+
     getImageURL(path){
         return storage().ref(path).getDownloadURL()
-    }
+    },
+
+    getProducts(){
+        return database().ref('products')
+    },
     
+    getSectionList(){
+        return database().ref('sections')
+    }
 };
