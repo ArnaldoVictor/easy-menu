@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'row',
         justifyContent:'space-between',
-        width:width-100
+        width:width-100,
+        marginTop:20
     },
     btnAddItem:{
         width: 54,
@@ -138,6 +139,20 @@ const styles = StyleSheet.create({
         width:width,
         height:237,
         marginTop:-30
+    },
+    section:{
+        padding:10,
+        width:width-120,
+        height:30,
+        borderBottomWidth:0.3,
+        borderBottomColor:'#6A6A6A',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    textSection:{
+        fontSize:16,
+        fontWeight:'bold',
+        fontFamily:'Roboto'
     }
 });
 

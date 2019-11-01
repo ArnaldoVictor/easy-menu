@@ -33,28 +33,22 @@ export default (props) => {
       });
     });
     setProducts(list);
-
   }
 
   useEffect(()=>{
 
-    const ref = Easy.getProducts();
-    ref.once('value', loadLists);
+    async function getProducts(){
+      const ref = Easy.getProducts();
+      await ref.once('value', loadLists);
+    }
+    getProducts();
     setLoading(false);
 
-  });
+  }, []);
 
-  if(loading){
-    return (
-      <View style={styles.loading}>
-        <ActivityIndicator size='large' color='#0000FF' />
-      </View>
-    )
-  }
 
   return (
     <React.Fragment>
-      
       <View style={styles.containerHeader}>
 
         <TouchableOpacity onPress={()=>props.navigation.toggleDrawer()}>
@@ -73,60 +67,62 @@ export default (props) => {
         </TouchableOpacity>
         
       </View>
+      {loading === true && (<ActivityIndicator size='large' color='#0000FF' />)}
+      {loading === false && (
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl colors={['#1976d2']}refreshing={refreshing} onRefresh={onRefresh} />}
+        >    
+          <View style={{marginBottom:30}}>
+            <Text style={styles.titleSection}>Promoções</Text>
+            <FlatList 
+              horizontal={true}
+              data={products}
+              renderItem={({item})=><Promotion />}
+              keyExtractor={(item)=> item.key}
+              style={styles.list}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
 
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl colors={['#1976d2']}refreshing={refreshing} onRefresh={onRefresh} />}
-      >    
-        <View style={{marginBottom:30}}>
-          <Text style={styles.titleSection}>Promoções</Text>
-          <FlatList 
-            horizontal={true}
-            data={products}
-            renderItem={({item})=><Promotion />}
-            keyExtractor={(item)=> item.key}
-            style={styles.list}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+          <View style={{marginBottom:30}}>
+            <Text style={styles.titleSection}>Categorias</Text>
+            <FlatList 
+              horizontal={true}
+              data={products}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} desc/>}
+              keyExtractor={(item)=> item.key}
+              style={styles.list}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
 
-        <View style={{marginBottom:30}}>
-          <Text style={styles.titleSection}>Categorias</Text>
-          <FlatList 
-            horizontal={true}
-            data={products}
-            renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} desc/>}
-            keyExtractor={(item)=> item.key}
-            style={styles.list}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+          <View style={{marginBottom:30}}>
+            <Text style={styles.titleSection}>Populares</Text>
+            <FlatList 
+              horizontal={true}
+              data={products}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price}/>}
+              keyExtractor={(item)=> item.key}
+              style={styles.list}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
 
-        <View style={{marginBottom:30}}>
-          <Text style={styles.titleSection}>Populares</Text>
-          <FlatList 
-            horizontal={true}
-            data={products}
-            renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price}/>}
-            keyExtractor={(item)=> item.key}
-            style={styles.list}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+          <View style={{marginBottom:30}}>
+            <Text style={styles.titleSection}>Recomendamos</Text>
+            <FlatList 
+              horizontal={true}
+              data={products}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} />}
+              keyExtractor={(item)=> item.key}
+              style={styles.list}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
 
-        <View style={{marginBottom:30}}>
-          <Text style={styles.titleSection}>Recomendamos</Text>
-          <FlatList 
-            horizontal={true}
-            data={products}
-            renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} />}
-            keyExtractor={(item)=> item.key}
-            style={styles.list}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-
-      </ScrollView>
+        </ScrollView>
+      )}
       
     </React.Fragment>
 

@@ -55,7 +55,7 @@ export default {
         return Alert.alert('Cadastrado', 'Cadastrado com sucesso!');
     },
 
-    registerProduct(name, desc, price, items = [], urlImage){
+    registerProduct(name, desc, price, items = [], urlImage, section){
         let ref = database().ref('products');
         let key = ref.push().key;
         ref.child(key).set({
@@ -64,7 +64,8 @@ export default {
             price,
             items,
             urlImage,
-            sold:0
+            sold:0,
+            section
         });
     },
 
@@ -83,4 +84,5 @@ export default {
     getSectionList(){
         return database().ref('sections')
     }
+
 };

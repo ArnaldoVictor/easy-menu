@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, Dimensions } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
@@ -9,13 +9,55 @@ import Easy from '../../services/firebase';
 export default (props) => {
     const [list, setList] = useState([]);
     const [image, setImage] = useState({});
+    const [sections, setSections] = useState([]);
+    const [selectedSection, setSelectedSection] = useState('');
     const width = Dimensions.get('screen').width;
+
+    function onSnapshot(snapshot){
+        let list = []
+
+        snapshot.forEach((section)=>{
+            list.push({
+                name:section.key
+            });
+        })
+        setSections(list);
+
+    }
+
+
+    useEffect(()=>{
+        const ref = Easy.getSectionList();
+        ref.once('value', onSnapshot);
+    }, []);
 
     function addItem(item){
         if(item !== ''){
             setList([...list, item]);
         }
     }
+
+    function renderSectionList(){
+        const active = 'rgba(21,101,192, 1)';
+        const inactive = 'rgba(255, 255, 255, 0)';
+
+        return (sections.map((section)=>(
+
+                <TouchableOpacity 
+                    key={section.name} 
+                    onPress={()=>setSelectedSection(section.name)}
+                    style={[styles.section, {backgroundColor:selectedSection===section.name ? active : inactive}]}
+                >
+                    <Text style={[styles.textSection, {color:selectedSection===section.name ? '#FFF' : '#000'}]}>
+                        {section.name}
+                    </Text>
+                </TouchableOpacity> 
+
+                )
+            ) 
+        );
+    }
+
 
     function removeItem(item) {
         const newList = [...list];
@@ -28,7 +70,6 @@ export default (props) => {
     
     }
 
-
     async function newProduct(values){
 
         if(values.name !== '', values.desc !== '' && values.price !== 'R$' && values.price !== '' && image !== {}){
@@ -40,11 +81,11 @@ export default (props) => {
             
             await storageRef.putString(image.displayImage, 'base64', metadata).then(()=>{
                 Easy.getImageURL(path).then(async (url)=>{
-                    await Easy.registerProduct(values.name, values.desc, values.price, list, url);
+                    await Easy.registerProduct(values.name, values.desc, values.price, list, url, selectedSection);
                 });
                 Alert.alert('Cadastro', 'Cadastro feito com sucesso!')
 
-            }) 
+            })
         }else{
             Alert.alert('ERRO', 'Preencha os dados corretamente')
         }
@@ -151,6 +192,9 @@ export default (props) => {
                                 style={styles.input}
                                 maxLength={16}
                             />
+
+                            {sections !== [] && renderSectionList()}
+
 
                             <View style={styles.addItemArea}>
                                 <TextInput
