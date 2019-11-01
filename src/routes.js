@@ -10,6 +10,7 @@ import SignUp from './pages/SignUp/index';
 import Home from './pages/Home/index';
 import NewProduct from './pages/NewProduct/index';
 import SignOut from './pages/SignOut/index';
+import Product from './pages/Product/index';
 
 
 const DrawerScreens = createDrawerNavigator({
@@ -24,6 +25,13 @@ const DrawerScreens = createDrawerNavigator({
         screen:SignOut,
         navigationOptions:{
             title:'Deslogar'
+        }
+    },
+    Product:{
+        screen:Product,
+        navigationOptions:{
+            title:'Produto',
+            drawerLabel:()=>null
         }
     }
 });

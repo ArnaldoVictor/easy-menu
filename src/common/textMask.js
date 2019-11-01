@@ -29,13 +29,8 @@ export default {
     },
     
     priceMask(price){
-      price = price.replace(/\D/g, '')
-      .replace(/^(\d)/, "R$$$1")
-      .replace(/(R\$\d{3})(\d)/, '$1.$2')
-      .replace(/(\.\d{3})(\d)/, '$1.$2')
-      if(price.length > 6){
-        price = price.replace(/(\.\d{3})(\d)/, '$1,$2')
-      }
-      return price;
+      price = price.replace('.', ',')
+      .replace(/^(\d)/, "R$$$1");
+      return price
     }
 }

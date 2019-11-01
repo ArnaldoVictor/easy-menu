@@ -25,7 +25,6 @@ export default (props) => {
 
     }
 
-
     useEffect(()=>{
         const ref = Easy.getSectionList();
         ref.once('value', onSnapshot);
@@ -57,7 +56,6 @@ export default (props) => {
             ) 
         );
     }
-
 
     function removeItem(item) {
         const newList = [...list];
@@ -192,9 +190,8 @@ export default (props) => {
                                 style={styles.input}
                                 maxLength={16}
                             />
-
+                            
                             {sections !== [] && renderSectionList()}
-
 
                             <View style={styles.addItemArea}>
                                 <TextInput

@@ -1,24 +1,13 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Easy from '../../services/firebase';
 import styles from './styles';
 
 export default (props) => {
-  const item = {
-    name:props.name,
-    price:props.price,
-    desc:props.desc,
-    url:props.url
-  }
-
-  function navItem(){
-    
-  }
-
+  
   return (
     <View style={styles.item}>
-      <TouchableOpacity onPress={()=>navItem()}>
+      <TouchableOpacity onPress={props.onPress}>
         <Image style={styles.itemImage} resizeMode='cover' source={{uri:props.url}}/> 
         <View>
           <Text style={styles.productName}>{props.name}</Text>

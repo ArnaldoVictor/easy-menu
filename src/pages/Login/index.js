@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
 import Easy from '../../services/firebase';
 import { Formik } from 'formik';

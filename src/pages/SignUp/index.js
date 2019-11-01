@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, ScrollView, StatusBar, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';

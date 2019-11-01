@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     SignUp:{
-        width: 280,
+        width: width-40,
         height: 50,
         borderRadius: 25,
         backgroundColor:'#3B5998',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     Back:{
-        width: 280,
+        width: width-40,
         height: 50,
         backgroundColor: '#D82A26',
         borderRadius: 25,

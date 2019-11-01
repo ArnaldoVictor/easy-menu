@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ItemMenu from '../../components/Item-Menu/index';
 import Promotion from '../../components/Promotion/index';
 
-
 export default (props) => {
   const [products, setProducts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -46,9 +45,9 @@ export default (props) => {
 
   }, []);
 
-
   return (
     <React.Fragment>
+      {/* HEADER */}
       <View style={styles.containerHeader}>
 
         <TouchableOpacity onPress={()=>props.navigation.toggleDrawer()}>
@@ -65,7 +64,9 @@ export default (props) => {
         <TouchableOpacity>
           <Icon name='search' size={20} style={styles.searchIcon}/>
         </TouchableOpacity>
+
         
+      {/* CONTENT */}
       </View>
       {loading === true && (<ActivityIndicator size='large' color='#0000FF' />)}
       {loading === false && (
@@ -90,7 +91,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} desc/>}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', item)}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
@@ -102,7 +103,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price}/>}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price}  onPress={()=>props.navigation.navigate('Product', item)}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
@@ -114,7 +115,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} />}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', item)}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
