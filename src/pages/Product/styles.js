@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         zIndex:0
 
     },
-    productName:{
+    title:{
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         paddingTop:10,
         flexDirection:'row',
         justifyContent:'space-between',
-        marginBottom:20
+        marginBottom:10
     },
     total:{
         fontFamily: 'Roboto',
@@ -106,24 +106,16 @@ const styles = StyleSheet.create({
     order:{
         width: width-40,
         height: 50,
-        backgroundColor: '#D82A26',
+        backgroundColor: '#3B5998',
         borderRadius: 25,
-        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowColor: 'rgba(0, 0, 0, 1)',
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 4,
         marginBottom:20,
         justifyContent:'center'
     },
     containerItems:{
-        marginBottom:20
-    },
-    itemsTitle:{
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        fontSize: 20,
-        lineHeight: 23,
-        marginBottom:5
+        marginBottom:10
     },
     checkBoxArea:{
         flexDirection:'row',
@@ -136,6 +128,24 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 30,
         color:'#6A6A6A'
+    },
+    comments:{
+        width: width-100,
+        height: 180,
+        backgroundColor: 'rgba(196, 196, 196, 0.42)',
+        borderRadius: 20,
+        paddingHorizontal: 15,
+        marginBottom:20,
+        textAlignVertical:'top',
+        justifyContent:'center'
+    },
+    containerComments:{
+        alignItems:'center'
+    },
+    amount:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginBottom:10
     }
 
 });

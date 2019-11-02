@@ -205,7 +205,7 @@ export default (props) => {
                                     <Text style={styles.addItem}>+</Text>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{marginBottom:20}}>
+                            <View>
 
                                 {list.length > 0 && renderList() }
                                 
