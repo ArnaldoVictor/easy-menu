@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         lineHeight: 23,
-        marginBottom:5
+        marginBottom:10,
+        marginTop:10
     },
     desc:{
         fontFamily: 'Roboto',
@@ -118,8 +119,7 @@ const styles = StyleSheet.create({
         marginBottom:10
     },
     checkBoxArea:{
-        flexDirection:'row',
-        padding:0
+        flexDirection:'row'
     },
     item:{
         fontFamily: 'Roboto',

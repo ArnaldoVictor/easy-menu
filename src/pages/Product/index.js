@@ -1,13 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles';
+import Extra from '../../components/extra-item/index';
+import Mask from '../../common/textMask';
 import whiteArrow from '../../assets/images/white-arrow.png';
 
 export default (props) => {
-    const [check, setCheck] = useState(false);
     const item = props.navigation.state.params;
+    const [total, setTotal] = useState({qtd:1, value:item.price});
+    const totalState = useSelector(state => state.extra.total);
+    const dispatch = useDispatch();
 
+    function loadItems(){
+       return item.items.map((value, key)=>(
+                <Extra key={item.key+value.name} name={value.name} price={value.price}/>
+            )
+       )
+    }
+    useEffect(()=>{
+        setTotal({qtd:1, value:item.price});
+    }, [item]);
+
+
+    function addQTD(){
+        let qtd = total.qtd+ 1;
+        let value = (Mask.maskTotal(item.price) * qtd).toFixed(2);
+        value = value.replace('.', ',');
+        setTotal({qtd, value:'R$'+value});
+        return total.qtd;
+    }
+
+    function minusQTD(){
+        if(total.qtd > 1){
+            let qtd = total.qtd - 1;
+            let value = (Mask.maskTotal(item.price)*qtd).toFixed(2);
+            value = value.replace('.', ',');
+            setTotal({qtd, value:'R$'+value});
+        }
+        return total.qtd;
+    }
 
     // {
     //     "desc": "teste",
@@ -40,23 +72,8 @@ export default (props) => {
                 
                 {/* Items */}
                 <View style={styles.containerItems}>
-                    <Text style={styles.title}>Itens</Text>
-                    <View style={styles.checkBoxArea}>
-                        <CheckBox onChange={()=>setCheck(!check)} value={check}/>
-                        <Text style={styles.item}>Item 1</Text>
-                    </View>
-                    <View style={styles.checkBoxArea}>
-                        <CheckBox onChange={()=>setCheck(!check)} value={check}/>
-                        <Text style={styles.item}>Item 2</Text>
-                    </View>
-                    <View style={styles.checkBoxArea}>
-                        <CheckBox onChange={()=>setCheck(!check)} value={check}/>
-                        <Text style={styles.item}>Item 3</Text>
-                    </View>
-                    <View style={styles.checkBoxArea}>
-                        <CheckBox onChange={()=>setCheck(!check)} value={check}/>
-                        <Text style={styles.item}>Item 4</Text>
-                    </View>
+                 <Text style={styles.title}>Adicionais</Text>
+                    {loadItems()}
                 </View>
                 
                 {/* Comments */}
@@ -75,11 +92,11 @@ export default (props) => {
                 <View style={styles.amount}>
                     <Text style={styles.title}>Quantidade</Text>
                     <View style={[styles.amount, {justifyContent:'center'}]}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={minusQTD}>
                             <Text style={styles.title}> {' < '} </Text>
                         </TouchableOpacity>
-                        <Text style={styles.title}>1</Text>
-                        <TouchableOpacity>
+                        <Text style={styles.title}>{total.qtd}</Text>
+                        <TouchableOpacity onPress={addQTD}>
                             <Text style={styles.title}> {' > '} </Text>
                         </TouchableOpacity>
                     </View>
@@ -88,7 +105,9 @@ export default (props) => {
                 {/* Total */}
                 <View style={styles.priceArea}>
                     <Text style={styles.total}>Total:</Text>
-                    <Text style={styles.price}>{item.price}</Text>
+                    <Text style={styles.price}>
+                        {total.value}
+                    </Text>
                 </View>
 
 

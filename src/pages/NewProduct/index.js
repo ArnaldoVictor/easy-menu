@@ -30,10 +30,21 @@ export default (props) => {
         ref.once('value', onSnapshot);
     }, []);
 
-    function addItem(item){
+    function addItem(item, price){
         if(item !== ''){
-            setList([...list, item]);
+            setList([...list, {name:item, price}]);
         }
+    }
+
+    function removeItem(item) {
+        const newList = [...list];
+        const index = newList.indexOf(item);
+
+        if(index !== -1){
+            newList.splice(index, 1);
+            setList([...newList]);
+        }
+    
     }
 
     function renderSectionList(){
@@ -55,17 +66,6 @@ export default (props) => {
                 )
             ) 
         );
-    }
-
-    function removeItem(item) {
-        const newList = [...list];
-        const index = newList.indexOf(item);
-
-        if(index !== -1){
-            newList.splice(index, 1);
-            setList([...newList]);
-        }
-    
     }
 
     async function newProduct(values){
@@ -121,10 +121,13 @@ export default (props) => {
         return (
             list.map((item, index)=> (
                 <View style={styles.itemArea} key={index}>                
-                    <Text style={styles.itemText} numberOfLines={1}>{item}</Text>
-                    <TouchableOpacity onPress={() => removeItem(item)}>
-                        <Text style={styles.removeItem}>X</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.itemText} numberOfLines={1}>{item.name}</Text>
+                    <View style={styles.removeArea}>
+                        <Text style={styles.itemPrice}>{item.price}</Text>
+                        <TouchableOpacity onPress={() => removeItem(item)}>
+                            <Text style={styles.removeItem}>X</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 )   
             )
@@ -156,7 +159,8 @@ export default (props) => {
                         name:'',
                         desc:'',
                         price:'',
-                        item:'' 
+                        item:'' ,
+                        itemPrice:''
                     }}
                     onSubmit={values => newProduct(values)}
                 >
@@ -198,17 +202,28 @@ export default (props) => {
                                     placeholder='Adicionar Item'
                                     placeholderTextColor='#6A6A6A'
                                     onChangeText={handleChange('item')}
-                                    style={[styles.input, {width:width-160}]}
+                                    style={[styles.input, {width:width-120, marginBottom:10}]}
                                     values={values.item}
                                 />
-                                <TouchableOpacity style={styles.btnAddItem} onPress={()=>addItem(values.item)}>
-                                    <Text style={styles.addItem}>+</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
+                                <View style={styles.itemPriceArea}>
+                                    <TextInput
+                                        placeholder='Preço do item...'
+                                        placeholderTextColor='#6A6A6A'
+                                        onChangeText={handleChange('itemPrice')}
+                                        style={[styles.input, {width:width-180}]}
+                                        keyboardType='number-pad'
+                                        value={Mask.priceMask(values.itemPrice)}
+                                    />
 
-                                {list.length > 0 && renderList() }
-                                
+                                    <TouchableOpacity style={styles.btnAddItem} onPress={()=>addItem(values.item, Mask.priceMask(values.itemPrice))}>
+                                        <Text style={styles.addItem}>+</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+
+                                    {list.length > 0 && renderList() }
+                                    
+                                </View>
                             </View>
                             <TouchableOpacity style={styles.registerBtn} onPress={handleSubmit}>
                                 <Text style={styles.TBtn}>Cadastrar</Text>

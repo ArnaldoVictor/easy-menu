@@ -32,5 +32,11 @@ export default {
       price = price.replace('.', ',')
       .replace(/^(\d)/, "R$$$1");
       return price
-    }
+    },
+
+    maskTotal(price){
+      price = price.replace('R$', '')
+      .replace(',', '.');
+      return parseFloat(price);
+  }
 }

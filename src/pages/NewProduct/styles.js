@@ -66,10 +66,27 @@ const styles = StyleSheet.create({
     },
     addItemArea:{
         flex:1,
-        flexDirection:'row',
-        justifyContent:'space-between',
+        borderWidth:0.2,
+        borderColor:'#6A6A6A',
         width:width-100,
-        marginTop:20
+        marginTop:20,
+        padding:10
+    },
+    itemPriceArea:{
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+    itemPrice:{
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 16,
+        lineHeight: 23,
+        color:'#3DD6B5'
+    },
+    removeArea:{
+        flexDirection:'row',
+        justifyContent:'space-between'
     },
     btnAddItem:{
         width: 54,
@@ -115,7 +132,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 16,
         lineHeight: 23,
         textAlign: 'center',
         color:'#6A6A6A'
@@ -127,7 +144,7 @@ const styles = StyleSheet.create({
         width:width-120
     },
     removeItem:{
-        fontSize:20,
+        fontSize:16,
         marginLeft:10,
         fontFamily: 'Roboto',
         fontStyle: 'normal',

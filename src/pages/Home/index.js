@@ -28,7 +28,8 @@ export default (props) => {
         name:product.val().name,
         price:product.val().price,
         url:product.val().urlImage,
-        desc:product.val().desc
+        desc:product.val().desc,
+        items:product.val().items
       });
     });
     setProducts(list);
