@@ -11,18 +11,16 @@ export default function ExtraItemReducer(state = INITIAL_STATE,  action){
             let total = Mask.maskTotal(action.item.price) + Mask.maskTotal(state.total);
             state.total = 'R$'+total.toFixed(2);
             state.items = [...state.items, action.item];
-            console.log('State Total:' + state.total);
             return state;
         case 'REMOVE_ITEM':
             const index = state.items.indexOf(action.item);
             total = Mask.maskTotal(state.total) - Mask.maskTotal(action.item.price);
             state.items.splice(index, 1);
             state.total = 'R$'+total.toFixed(2);
-            console.log('State Total:' + state.total);
             return state;
         case 'CLEAR_TOTAL':
             state.total = action.total;
-            return state.total;
+            return state;
         default:
             return state;
     }

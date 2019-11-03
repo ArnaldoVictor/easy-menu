@@ -9,6 +9,7 @@ import whiteArrow from '../../assets/images/white-arrow.png';
 export default (props) => {
     const item = props.navigation.state.params;
     const [total, setTotal] = useState({qtd:1, value:item.price});
+    const [comment, setComment] = useState(null);
     const totalState = useSelector(state => state.extra.total);
     const dispatch = useDispatch();
 
@@ -19,13 +20,24 @@ export default (props) => {
        )
     }
     useEffect(()=>{
+        setComment('');
         setTotal({qtd:1, value:item.price});
+        if(totalState !== '0' && totalState !== undefined){
+            dispatch({type:'CLEAR_TOTAL', total:'R$0,00'})
+        }
     }, [item]);
+
+    useEffect(()=>{
+        let qtd = total.qtd;
+        let value = (Mask.maskTotal(item.price) * qtd)+Mask.maskTotal(totalState);
+        value = 'R$'+value.toFixed(2).replace('.', ',');
+        setTotal({ qtd, value });
+    }, [totalState])
 
 
     function addQTD(){
-        let qtd = total.qtd+ 1;
-        let value = (Mask.maskTotal(item.price) * qtd).toFixed(2);
+        let qtd = total.qtd + 1;
+        let value = ((Mask.maskTotal(item.price) * qtd)+Mask.maskTotal(totalState)).toFixed(2);
         value = value.replace('.', ',');
         setTotal({qtd, value:'R$'+value});
         return total.qtd;
@@ -34,20 +46,12 @@ export default (props) => {
     function minusQTD(){
         if(total.qtd > 1){
             let qtd = total.qtd - 1;
-            let value = (Mask.maskTotal(item.price)*qtd).toFixed(2);
+            let value = ((Mask.maskTotal(item.price)*qtd)+Mask.maskTotal(totalState)).toFixed(2);
             value = value.replace('.', ',');
             setTotal({qtd, value:'R$'+value});
         }
         return total.qtd;
     }
-
-    // {
-    //     "desc": "teste",
-    //     "key": "-LsYgYosPndDBEy0TT58", 
-    //     "name": "teste", 
-    //     "price": "R$98", 
-    //     "url": "https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2Fteste.jpg?alt=media&token=fbf1f698-a76a-4bb9-b05c-7215fed7d011"
-    // }
 
     return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -84,6 +88,8 @@ export default (props) => {
                             style={styles.comments}
                             multiline={true}
                             numberOfLines={32}
+                            value={comment}
+                            onChangeText={()=>setComment(null)}
                         />
                     </View>
                 </View>
