@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
         fontSize: 28,
-        lineHeight: 33,
         marginBottom:10
     },
     h3:{
@@ -79,6 +78,40 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
 
+    },
+    image:{
+        width:200,
+        height:200,
+        marginTop:-40,
+        borderRadius:20
+    },
+    sectionName:{
+        position:'relative',
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 20,
+        zIndex:99,
+        color:'#FFF',
+        marginTop:-65,
+        marginLeft:10,
+        width:170,
+        zIndex:2
+    },
+    pictureActive:{
+        width:200,
+        height:200,
+        borderRadius:20,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'transparent'
+    },
+    gradient:{
+        position:'relative',
+        width:200,
+        height:200,
+        borderRadius:20,
+        zIndex:1
     }
 
 });

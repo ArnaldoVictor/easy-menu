@@ -106,7 +106,7 @@ export default (props) => {
 
         await ImagePicker.showImagePicker(options, (response)=>{
             if(response.uri){
-                const displayImage = response.data ;
+                const displayImage = response.data;
                 const {path, width, height} = response;
                 const newImage = { path, width, height };
                 
