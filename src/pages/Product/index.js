@@ -19,6 +19,7 @@ export default (props) => {
             )
        )
     }
+
     useEffect(()=>{
         setComment('');
         setTotal({qtd:1, value:item.price});
@@ -33,7 +34,6 @@ export default (props) => {
         value = 'R$'+value.toFixed(2).replace('.', ',');
         setTotal({ qtd, value });
     }, [totalState])
-
 
     function addQTD(){
         let qtd = total.qtd + 1;
@@ -73,7 +73,6 @@ export default (props) => {
                 <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.desc}>{item.desc}</Text>
 
-                
                 {/* Items */}
                 <View style={styles.containerItems}>
                  <Text style={styles.title}>Adicionais</Text>
@@ -115,7 +114,6 @@ export default (props) => {
                         {total.value}
                     </Text>
                 </View>
-
 
                 {/* Button */}
                 <View style={styles.ButtonArea}>
