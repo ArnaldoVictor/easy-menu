@@ -11,7 +11,7 @@ import Home from './pages/Home/index';
 import NewProduct from './pages/NewProduct/index';
 import SignOut from './pages/SignOut/index';
 import Product from './pages/Product/index';
-
+import AddSection from './pages/AddSection/index';
 
 const DrawerScreens = createDrawerNavigator({
     Home,
@@ -21,17 +21,23 @@ const DrawerScreens = createDrawerNavigator({
             title:'Cadastrar Produto'
         }
     },
-    SignOut:{
-        screen:SignOut,
-        navigationOptions:{
-            title:'Deslogar'
-        }
-    },
     Product:{
         screen:Product,
         navigationOptions:{
             title:'Produto',
             drawerLabel:()=>null
+        }
+    },
+    AddSection:{
+        screen:AddSection,
+        navigationOptions:{
+            title:'Adicionar Categoria'
+        }
+    },
+    SignOut:{
+        screen:SignOut,
+        navigationOptions:{
+            title:'Deslogar'
         }
     }
 });
