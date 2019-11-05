@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import Easy from '../../services/firebase';
 import ItemMenu from '../../components/Item-Menu/index';
@@ -41,7 +41,7 @@ export default (props) => {
                 path: 'images',
             },
         };
-
+        console.log('Me clicou!');
         await ImagePicker.showImagePicker(options, (response)=>{
             if(response.uri){
                 const displayImage = response.data;
@@ -54,7 +54,7 @@ export default (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Text style={styles.h1}>Nova Categoria</Text>
             <Text style={styles.h3}>Digite o nome da categoria</Text>
 
@@ -66,8 +66,8 @@ export default (props) => {
             <Text style={styles.h3}>Faça o upload da Imagem</Text>
             <View style={image.uri === undefined ? styles.pictureContainer: styles.pictureActive}>
                 <TouchableOpacity onPress={selectImage}>
+                    {image.uri !== undefined && <ItemMenu name={sectionName} url={image.uri} style={true} onPress={selectImage}/>}
                     {image.uri === undefined && <Text style={styles.selectImage}>+</Text> }
-                    {image.uri !== undefined && <ItemMenu name={sectionName} url={image.uri} style={true}/>}
                 </TouchableOpacity>
             </View>
             <Text style={styles.h1}>Preview</Text>
@@ -80,6 +80,6 @@ export default (props) => {
                 <Text style={styles.TBtn}>Voltar</Text>
             </TouchableOpacity>
 
-        </View>
+        </ScrollView>
     );
 }

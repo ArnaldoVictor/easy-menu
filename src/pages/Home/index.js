@@ -67,7 +67,6 @@ export default (props) => {
 
   return (
     <React.Fragment>
-      {console.log(sections)}
       {/* HEADER */}
       <View style={styles.containerHeader}>
 

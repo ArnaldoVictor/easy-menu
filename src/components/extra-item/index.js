@@ -1,7 +1,7 @@
-import React, { useState } from './node_modules/react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { useSelector, useDispatch } from './node_modules/react-redux';
-import CheckBox from './node_modules/@react-native-community/checkbox';
+import { useSelector, useDispatch } from 'react-redux';
+import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
 
 export default (props) => {
