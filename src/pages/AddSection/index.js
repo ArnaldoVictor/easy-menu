@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import LinearGradient from 'react-native-linear-gradient';
+import Easy from '../../services/firebase';
 import ItemMenu from '../../components/Item-Menu/index';
 import styles from './styles';
 
@@ -11,6 +11,22 @@ export default (props) => {
 
     function handleName(text){
         setSectionName(text);
+    }
+
+    async function uploadImage(){
+        const path = `sections/${sectionName}.jpg`;
+        const storageRef = Easy.refUploadImage(path);
+        const metadata = {
+            contentType:'image/jpeg'
+        }
+
+        await storageRef.putString(image.displayImage, 'base64', metadata).then(async ()=>{
+            await Easy.getImageURL(path).then(async (url)=>{
+                await Easy.newSection(sectionName, url);
+                Alert.alert('Upload', 'Nova categoria adicionada com sucesso!');
+                
+            })
+        })
     }
 
     async function selectImage(){
@@ -52,13 +68,11 @@ export default (props) => {
                 <TouchableOpacity onPress={selectImage}>
                     {image.uri === undefined && <Text style={styles.selectImage}>+</Text> }
                     {image.uri !== undefined && <ItemMenu name={sectionName} url={image.uri} style={true}/>}
-                    {/* {image.uri !== undefined && <Text numberOfLines={2} style={styles.sectionName}>{sectionName}</Text>}
-                    {image.uri !== undefined && <LinearGradient style={styles.gradient} colors={['rgba(255, 255, 255, 0.1)', 'rgba(0, 0, 0, 0.7)']}/>} */}
                 </TouchableOpacity>
             </View>
             <Text style={styles.h1}>Preview</Text>
 
-            <TouchableOpacity style={styles.addSection}>
+            <TouchableOpacity style={styles.addSection} onPress={uploadImage}>
                 <Text style={styles.TBtn}>Adicionar Categoria</Text>
             </TouchableOpacity>
             

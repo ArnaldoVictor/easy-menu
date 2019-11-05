@@ -8,17 +8,34 @@ import Promotion from '../../components/Promotion/index';
 
 export default (props) => {
   const [products, setProducts] = useState([]);
+  const [sections, setSections] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
   function onRefresh(){
     setRefreshing(true);
-    const ref = Easy.getProducts();
-    ref.once('value', loadLists);
-
     setTimeout(()=>setRefreshing(false), 2000);
   }
 
+  
+  useEffect(()=>{
+    
+    async function getProducts(){
+      const ref = Easy.getProducts();
+      await ref.once('value', loadLists);
+    }
+    
+    async function getSections(){
+      const ref = Easy.getSectionList();
+      await ref.once('value', loadSections);
+    }
+    
+    getSections();
+    getProducts();
+    setLoading(false);
+    
+  }, [refreshing]);
+  
   function loadLists(snapshot){
     const list = [];
 
@@ -27,7 +44,7 @@ export default (props) => {
         key:product.key,
         name:product.val().name,
         price:product.val().price,
-        url:product.val().urlImage,
+        url:product.val().imageUrl,
         desc:product.val().desc,
         items:product.val().items
       });
@@ -35,19 +52,22 @@ export default (props) => {
     setProducts(list);
   }
 
-  useEffect(()=>{
+  function loadSections(snapshot){
+    const list = [];
 
-    async function getProducts(){
-      const ref = Easy.getProducts();
-      await ref.once('value', loadLists);
-    }
-    getProducts();
-    setLoading(false);
+    snapshot.forEach(section =>{
+      list.push({
+        name:section.val().name,
+        url:section.val().imageUrl
+      })
+    })
+    setSections(list);
+  }
 
-  }, []);
 
   return (
     <React.Fragment>
+      {console.log(sections)}
       {/* HEADER */}
       <View style={styles.containerHeader}>
 
@@ -91,9 +111,9 @@ export default (props) => {
             <Text style={styles.titleSection}>Categorias</Text>
             <FlatList 
               horizontal={true}
-              data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', item)}/>}
-              keyExtractor={(item)=> item.key}
+              data={sections}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} />}
+              keyExtractor={(item)=> item.url}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
             />
@@ -104,7 +124,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price}  onPress={()=>props.navigation.navigate('Product', item)}/>}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', item)}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}

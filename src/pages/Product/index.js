@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles';
-import Extra from '../../components/extra-item/index';
+import Extra from '../../components/Extra-Item/index';
 import Mask from '../../common/textMask';
 import whiteArrow from '../../assets/images/white-arrow.png';
 

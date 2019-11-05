@@ -6,6 +6,7 @@ import styles from './styles';
 export default (props) => {
   const [margin, setMargin] = useState(-65);
 
+
   useEffect(()=>{
     if(props.name.length > 14){
       setMargin(-80)
@@ -13,6 +14,8 @@ export default (props) => {
       setMargin(-65)
     }
   }, [props.name]);
+  
+
   
   return (
     <View style={props.style ? {marginLeft:0} : styles.item}>

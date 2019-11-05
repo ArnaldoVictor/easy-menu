@@ -55,7 +55,7 @@ export default {
         return Alert.alert('Cadastrado', 'Cadastrado com sucesso!');
     },
 
-    registerProduct(name, desc, price, items = [], urlImage, section){
+    registerProduct(name, desc, price, items = [], imageUrl, section){
         let ref = database().ref('products');
         let key = ref.push().key;
         ref.child(key).set({
@@ -63,9 +63,25 @@ export default {
             desc,
             price,
             items,
-            urlImage,
+            imageUrl,
             sold:0,
             section
+        });
+    },
+    newSection(sectionName, url){
+        let ref = database().ref('sections');
+        ref.child(sectionName).set({
+            name:sectionName,
+            imageUrl:url
+        });
+    },
+
+    newPromotion(promotionName, url, items = []){
+        let ref = database().ref('sections');
+        ref.child(promotionName).set({
+            name:promotionName,
+            imageUrl:url,
+            products:items
         });
     },
 
