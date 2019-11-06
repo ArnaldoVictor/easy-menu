@@ -125,8 +125,9 @@ const styles = StyleSheet.create({
     },
     productList:{
         width:width-50,
+        height:270,
         borderRadius:20,
-        backgroundColor:'rgba(196,196,196, 0.1)',
+        backgroundColor:'rgba(196,196,196, 0.3)',
         padding:10,
         marginBottom:20
     },
@@ -142,14 +143,40 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'bold',
-        fontSize: 20,
-        color: '#3B5998'
+        fontSize: 24,
+        color: '#3B5998',
+        margin:10
     },
-    sectionItem:{
+    modalHeader:{
+        flexDirection:'row',
+        justifyContent:'space-between'
 
+    },  
+    modalTitle:{
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 24,
+        margin:10
+    }, 
+    sectionsContainer:{
+        alignItems:'center',
+        marginTop:20,
+        marginBottom:20
     },
-    sectionName:{
-
+    section:{
+        padding:10,
+        width:width-40,
+        height:30,
+        borderBottomWidth:0.3,
+        borderBottomColor:'#6A6A6A',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    textSection:{
+        fontSize:16,
+        fontWeight:'bold',
+        fontFamily:'Roboto'
     }
 
 });

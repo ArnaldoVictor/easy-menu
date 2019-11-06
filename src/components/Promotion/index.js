@@ -4,9 +4,9 @@ import styles from './styles';
 
 export default (props) => {
   return (
-    <View style={{marginLeft:20}}>
-      <TouchableOpacity >
-        <Image style={styles.promotionImage} source={require('../../assets/images/picanha-grelhada.jpg')}  />
+    <View style={props.addPromo !== 1 && {marginLeft:20}}>
+      <TouchableOpacity onPress={props.onPress}>
+        <Image style={styles.promotionImage} source={{uri:props.url}}  />
       </TouchableOpacity>
     </View>
   );

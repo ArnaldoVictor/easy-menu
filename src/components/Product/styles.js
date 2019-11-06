@@ -11,6 +11,13 @@ const styles = StyleSheet.create({
         alignItems:'center',
         marginTop:10
     },
+    last:{
+        width:width-70,
+        paddingBottom:10,
+        flexDirection:'row',
+        alignItems:'center',
+        marginTop:10
+    },
     productImage:{
         width:64,
         height:64,

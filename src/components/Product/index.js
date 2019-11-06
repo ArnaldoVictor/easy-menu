@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './styles';
 
 export default (props) => {
     return (
-        <View style={styles.container}>
-            <Image style={styles.productImage} resizeMode='stretch' source={require('../../assets/images/bebida.jpg')}/>
+        <View style={props.last === 1 ? styles.last : styles.container}>
+            <Image style={styles.productImage} resizeMode='stretch' source={{uri:props.url}}/>
             <View>
-                <Text style={styles.productName}>Nome</Text>
-                <Text style={styles.productDesc}>Desc</Text>
-                <Text style={styles.productPrice}>R$10,00</Text>
+                <Text style={styles.productName}>{props.name}</Text>
+                <Text style={styles.productDesc} numberOfLines={1}>{props.desc}</Text>
+                <Text style={styles.productPrice}>{props.price}</Text>
             </View>
         </View>
     );

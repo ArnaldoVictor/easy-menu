@@ -54,32 +54,33 @@ export default (props) => {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.h1}>Nova Categoria</Text>
-            <Text style={styles.h3}>Digite o nome da categoria</Text>
+        <ScrollView scrollContentStyle={styles.scrollContainer}>
+            <View style={styles.container}>
+                <Text style={styles.h1}>Nova Categoria</Text>
+                <Text style={styles.h3}>Digite o nome da categoria</Text>
 
-            <TextInput
-                placeholder='Digite o nome para a categoria...'
-                style={styles.input}
-                onChangeText={(text)=>handleName(text)}            
-            />
-            <Text style={styles.h3}>Faça o upload da Imagem</Text>
-            <View style={image.uri === undefined ? styles.pictureContainer: styles.pictureActive}>
-                <TouchableOpacity onPress={selectImage}>
-                    {image.uri !== undefined && <ItemMenu name={sectionName} url={image.uri} style={true} onPress={selectImage}/>}
-                    {image.uri === undefined && <Text style={styles.selectImage}>+</Text> }
+                <TextInput
+                    placeholder='Digite o nome para a categoria...'
+                    style={styles.input}
+                    onChangeText={(text)=>handleName(text)}            
+                />
+                <Text style={styles.h3}>Faça o upload da Imagem</Text>
+                <View style={image.uri === undefined ? styles.pictureContainer: styles.pictureActive}>
+                    <TouchableOpacity onPress={selectImage}>
+                        {image.uri !== undefined && <ItemMenu name={sectionName} url={image.uri} style={true} onPress={selectImage}/>}
+                        {image.uri === undefined && <Text style={styles.selectImage}>+</Text> }
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.h1}>Preview</Text>
+
+                <TouchableOpacity style={styles.addSection} onPress={uploadImage}>
+                    <Text style={styles.TBtn}>Adicionar Categoria</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
+                    <Text style={styles.TBtn}>Voltar</Text>
                 </TouchableOpacity>
             </View>
-            <Text style={styles.h1}>Preview</Text>
-
-            <TouchableOpacity style={styles.addSection} onPress={uploadImage}>
-                <Text style={styles.TBtn}>Adicionar Categoria</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
-                <Text style={styles.TBtn}>Voltar</Text>
-            </TouchableOpacity>
-
         </ScrollView>
     );
 }

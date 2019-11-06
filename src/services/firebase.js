@@ -77,7 +77,7 @@ export default {
     },
 
     newPromotion(promotionName, url, items = []){
-        let ref = database().ref('sections');
+        let ref = database().ref('promotions');
         ref.child(promotionName).set({
             name:promotionName,
             imageUrl:url,
@@ -99,6 +99,9 @@ export default {
     
     getSectionList(){
         return database().ref('sections')
+    },
+    getPromotionList(){
+        return database().ref('promotions')
     }
 
 };

@@ -9,6 +9,7 @@ import Promotion from '../../components/Promotion/index';
 export default (props) => {
   const [products, setProducts] = useState([]);
   const [sections, setSections] = useState([]);
+  const [promotions, setPromotions] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -30,11 +31,32 @@ export default (props) => {
       await ref.once('value', loadSections);
     }
     
+    async function getPromotions(){
+      const ref = Easy.getPromotionList();
+      await ref.once('value', loadPromotions);
+    }
+
+    getPromotions();
     getSections();
     getProducts();
     setLoading(false);
     
   }, [refreshing]);
+
+  function loadPromotions(snapshot){
+    const list = [];
+
+    snapshot.forEach((promotion)=>{
+      list.push({
+        key:promotion.key,
+        name:promotion.val().name,
+        url:promotion.val().imageUrl,
+        products:promotion.val().products
+      });
+    })
+    setPromotions(list);
+
+  }
   
   function loadLists(snapshot){
     const list = [];
@@ -98,8 +120,8 @@ export default (props) => {
             <Text style={styles.titleSection}>Promoções</Text>
             <FlatList 
               horizontal={true}
-              data={products}
-              renderItem={({item})=><Promotion />}
+              data={promotions}
+              renderItem={({item})=><Promotion name={item.name} url={item.url}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
