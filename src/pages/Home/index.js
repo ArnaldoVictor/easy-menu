@@ -133,7 +133,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={sections}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} />}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} onPress={()=>props.navigation.navigate('ProductsList', {type:'section', name:item.name})}/>}
               keyExtractor={(item)=> item.url}
               style={styles.list}
               showsHorizontalScrollIndicator={false}

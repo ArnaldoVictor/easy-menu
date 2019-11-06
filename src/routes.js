@@ -13,6 +13,7 @@ import SignOut from './pages/SignOut/index';
 import Product from './pages/Product/index';
 import AddSection from './pages/AddSection/index';
 import AddPromotion from './pages/AddPromotion/index';
+import ProductsList from './pages/ProductsList/index';
 
 const DrawerScreens = createDrawerNavigator({
     Home,
@@ -39,6 +40,13 @@ const DrawerScreens = createDrawerNavigator({
         screen:AddPromotion,
         navigationOptions:{
             title:'Criar Promoção'
+        }
+    },
+    ProductsList:{
+        screen:ProductsList,
+        navigationOptions:{
+            title:'Lista de Produtos',
+            drawerLabel:()=>null
         }
     },
     SignOut:{

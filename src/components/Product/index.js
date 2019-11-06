@@ -8,7 +8,7 @@ export default (props) => {
             <Image style={styles.productImage} resizeMode='stretch' source={{uri:props.url}}/>
             <View>
                 <Text style={styles.productName}>{props.name}</Text>
-                <Text style={styles.productDesc} numberOfLines={1}>{props.desc}</Text>
+                <Text style={props.descStyle !== 1 ? styles.productDesc : styles.addPromotionProductDesc} numberOfLines={1}>{props.desc}</Text>
                 <Text style={styles.productPrice}>{props.price}</Text>
             </View>
         </View>

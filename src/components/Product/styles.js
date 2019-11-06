@@ -3,7 +3,7 @@ const width = Dimensions.get('screen').width;
 
 const styles = StyleSheet.create({
     container:{
-        width:width-70,
+        width:width-20,
         paddingBottom:10,
         borderBottomWidth:0.4,
         borderBottomColor:'#C4C4C4',
@@ -25,12 +25,14 @@ const styles = StyleSheet.create({
         marginRight:20
     },
     productName:{
+        width:width-120,
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'bold',
         fontSize: 14
     },
     productDesc:{
+        width:width-120,
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -47,6 +49,14 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: -1, height: 0.4},
         textShadowRadius: 1
 
+    },
+    addPromotionProductDesc:{
+        width:width-160,
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 14,
+        color:'#6A6A6A'
     }
 
 

@@ -90,6 +90,7 @@ export default (props) => {
                     desc={item.desc}
                     price={item.price}
                     url={item.url}
+                    descStyle={1}
                 />
             </TouchableOpacity>
 
@@ -195,7 +196,6 @@ export default (props) => {
             style={styles.container}
             showsVerticalScrollIndicator={false}
         >
-            { console.log(items) }
             {/* Header */}
             <Text style={[styles.h1, {marginTop:20}]}>Nova Promoção</Text>
             <Text style={styles.h3}>Digite o nome da Promoção</Text>
