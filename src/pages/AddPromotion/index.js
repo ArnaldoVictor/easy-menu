@@ -98,8 +98,6 @@ export default (props) => {
     }
 
     function renderProductList(){
-        const active = 'rgba(21,101,192, 1)';
-        const inactive = 'rgba(255, 255, 255, 0)';
 
         return (products.map((v, k)=>{
             if(v.section === selectedSection){
