@@ -28,12 +28,37 @@ export default (props) => {
 
     useEffect(()=>{
         setProducts([]);
-        const ref = Easy.getProducts().orderByChild(obj.type).equalTo(obj.name);
-        ref.once('value', loadProducts);
+        if(obj.type === 'section'){
+            const ref = Easy.getProducts().orderByChild(obj.type).equalTo(obj.name);
+            ref.once('value', loadProducts);
+        }else{
+            loadPromotionProducts(obj);
+            console.log(products);
+            
+        }
     }, [obj]);
 
+    async function loadPromotionProducts(items){
+        const list = [];
+        const productList = Object.values(items);
+
+        productList.map(item => {
+            list.push({
+                key:item.key,
+                name:item.name,
+                desc:item.desc,
+                url:item.imageUrl,
+                price:item.price,
+                items:item.items
+            })
+        })
+        setProducts(list);
+    }
+
     function renderProducts(){
+        console.log(obj);
         return products.map((item, key)=>(
+            
             <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', item)}>
                 <Product name={item.name} desc={item.desc} price={item.price} url={item.url}/>
             </TouchableOpacity>
@@ -43,6 +68,7 @@ export default (props) => {
 
   return (
     <React.Fragment>
+        {console.log(obj)}
         <View style={styles.header}>
             <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
                 <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
