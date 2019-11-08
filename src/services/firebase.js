@@ -102,6 +102,10 @@ export default {
     },
     getPromotionList(){
         return database().ref('promotions')
+    },
+
+    getPromotionItems(child){
+        return database().ref('promotions/'+child+'/products');
     }
 
 };

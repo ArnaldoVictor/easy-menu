@@ -98,9 +98,6 @@ export default (props) => {
     }
 
     function renderProductList(){
-        const active = 'rgba(21,101,192, 1)';
-        const inactive = 'rgba(255, 255, 255, 0)';
-
         return (products.map((v, k)=>{
             if(v.section === selectedSection){
                 return  (
@@ -146,20 +143,13 @@ export default (props) => {
     async function uploadImage(){
         const path = `promotions/${promotionName}.jpg`;
         const storageRef = Easy.refUploadImage(path);
-        const keyList = [];
-
-        items.map((item, key)=>{
-            keyList.push(item.key);
-        })
-
-
         const metadata = {
             contentType:'image/jpeg'
         }
 
         await storageRef.putString(image.displayImage, 'base64', metadata).then(async ()=>{
             await Easy.getImageURL(path).then(async (url)=>{
-                await Easy.newPromotion(promotionName, url, keyList);
+                await Easy.newPromotion(promotionName, url, items);
                 Alert.alert('Upload', 'Nova Promoção adicionada com sucesso!');
                 
             })

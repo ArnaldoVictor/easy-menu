@@ -10,6 +10,7 @@ export default (props) => {
   const [products, setProducts] = useState([]);
   const [sections, setSections] = useState([]);
   const [promotions, setPromotions] = useState([]);
+  const [promotionItems, setPromotionItems] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +19,6 @@ export default (props) => {
     setTimeout(()=>setRefreshing(false), 2000);
   }
 
-  
   useEffect(()=>{
     
     async function getProducts(){
@@ -34,6 +34,7 @@ export default (props) => {
     async function getPromotions(){
       const ref = Easy.getPromotionList();
       await ref.once('value', loadPromotions);
+      
     }
 
     getPromotions();
@@ -42,6 +43,30 @@ export default (props) => {
     setLoading(false);
     
   }, [refreshing]);
+
+  async function getPromotionItems(child){
+    const ref = Easy.getPromotionItems(child);
+    await ref.once('value', loadPromotionItems);
+  }
+  
+  function loadPromotionItems(snapshot){
+    const list = [];
+
+    snapshot.forEach(product => {
+      list.push({
+        key:product.val().key,
+        name:product.val().name,
+        desc:product.val().desc,
+        price:product.val().price,
+        imageUrl:product.val().imageUrl
+      })
+    });
+    setPromotionItems(list);
+  }
+
+  useEffect(()=>{
+    props.navigation.navigate('ProductsList', promotionItems);
+  }, [promotionItems])
 
   function loadPromotions(snapshot){
     const list = [];
@@ -86,7 +111,6 @@ export default (props) => {
     setSections(list);
   }
 
-
   return (
     <React.Fragment>
       {/* HEADER */}
@@ -121,7 +145,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={promotions}
-              renderItem={({item})=><Promotion name={item.name} url={item.url}/>}
+              renderItem={({item})=><Promotion name={item.name} url={item.url} onPress={()=>getPromotionItems(item.name)}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
