@@ -56,12 +56,12 @@ export default (props) => {
         ref.once('value', loadLists)
     }, [modalVisible]);
 
-    function addProduct(key, name, desc, price, url){
+    function addProduct(key, name, desc, price, imageUrl, productList){
         const list = [...items];
         const index = list.findIndex(item => item.key === key);
 
         if(index === -1){
-            list.push({key, name, desc, price, url});
+            list.push({key, name, desc, price, imageUrl, items:productList});
             setItems(list);
             setModalVisible(!modalVisible);
         }else{
@@ -89,7 +89,7 @@ export default (props) => {
                     name={item.name}
                     desc={item.desc}
                     price={item.price}
-                    url={item.url}
+                    url={item.imageUrl}
                     descStyle={1}
                 />
             </TouchableOpacity>
@@ -103,7 +103,7 @@ export default (props) => {
                 return  (
                     <TouchableOpacity 
                         key={v.key}
-                        onPress={()=>addProduct(v.key, v.name, v.desc, v.price, v.url)}
+                        onPress={()=>addProduct(v.key, v.name, v.desc, v.price, v.url, v.items)}
                     >
                         <Product 
                             last={products.length - 1 === k && 1}

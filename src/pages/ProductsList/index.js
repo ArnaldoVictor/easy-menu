@@ -5,7 +5,6 @@ import Product from '../../components/Product/index';
 import Easy from '../../services/firebase';
 import styles from './styles';
 
-
 export default (props) => {
     const [products, setProducts] = useState([]);
     const obj = props.navigation.state.params;
@@ -28,15 +27,17 @@ export default (props) => {
 
     useEffect(()=>{
         setProducts([]);
+        
         if(obj.type === 'section'){
             const ref = Easy.getProducts().orderByChild(obj.type).equalTo(obj.name);
             ref.once('value', loadProducts);
         }else{
-            loadPromotionProducts(obj);
-            console.log(products);
-            
+           loadPromotionProducts(obj.promotionItems);
         }
+        
+
     }, [obj]);
+
 
     async function loadPromotionProducts(items){
         const list = [];
@@ -56,7 +57,6 @@ export default (props) => {
     }
 
     function renderProducts(){
-        console.log(obj);
         return products.map((item, key)=>(
             
             <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', item)}>
@@ -67,20 +67,17 @@ export default (props) => {
     }
 
   return (
-    <React.Fragment>
-        {console.log(obj)}
+    <ScrollView style={styles.scrollContainer}>
         <View style={styles.header}>
             <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
                 <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
             </TouchableOpacity>
-
-            <Text style={styles.headerTitle}>{obj.name}</Text>
+            <Text style={styles.headerTitle}>{obj.type === 'section' ? obj.name : obj.promotionName}</Text>
         </View>
-        <ScrollView style={styles.scrollContainer}>
-            <View style={styles.container}>
-                {products.length > 0 && renderProducts()}
-            </View>
-        </ScrollView>
-    </React.Fragment>
+        <View style={styles.container}>
+            {products.length > 0 && renderProducts()}
+        </View>
+
+    </ScrollView>
   );
 }

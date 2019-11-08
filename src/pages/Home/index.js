@@ -11,6 +11,7 @@ export default (props) => {
   const [sections, setSections] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [promotionItems, setPromotionItems] = useState([]);
+  const [selectedPromotion, setSelectedPromotion] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +47,7 @@ export default (props) => {
 
   async function getPromotionItems(child){
     const ref = Easy.getPromotionItems(child);
+    setSelectedPromotion(child);
     await ref.once('value', loadPromotionItems);
   }
   
@@ -58,14 +60,15 @@ export default (props) => {
         name:product.val().name,
         desc:product.val().desc,
         price:product.val().price,
-        imageUrl:product.val().imageUrl
+        imageUrl:product.val().imageUrl,
+        items:product.val().items
       })
     });
     setPromotionItems(list);
   }
 
   useEffect(()=>{
-    props.navigation.navigate('ProductsList', promotionItems);
+    props.navigation.navigate('ProductsList', {promotionName:selectedPromotion, promotionItems});
   }, [promotionItems])
 
   function loadPromotions(snapshot){
@@ -92,8 +95,7 @@ export default (props) => {
         name:product.val().name,
         price:product.val().price,
         url:product.val().imageUrl,
-        desc:product.val().desc,
-        items:product.val().items
+        desc:product.val().desc
       });
     });
     setProducts(list);
