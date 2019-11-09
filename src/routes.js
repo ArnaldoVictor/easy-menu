@@ -13,7 +13,7 @@ import SignOut from './pages/SignOut/index';
 import Product from './pages/Product/index';
 import AddSection from './pages/AddSection/index';
 import AddPromotion from './pages/AddPromotion/index';
-import ProductsList from './pages/ProductsList/index';
+import ProductList from './pages/ProductList/index';
 
 const DrawerScreens = createDrawerNavigator({
     Home,
@@ -42,8 +42,8 @@ const DrawerScreens = createDrawerNavigator({
             title:'Criar Promoção'
         }
     },
-    ProductsList:{
-        screen:ProductsList,
+    ProductList:{
+        screen:ProductList,
         navigationOptions:{
             title:'Lista de Produtos',
             drawerLabel:()=>null
@@ -79,10 +79,13 @@ const StackScreens = createStackNavigator({
 });
 
 
+
+
 const Routes = createAppContainer(
     createAnimatedSwitchNavigator({
         StackScreens,
-        DrawerScreens
+        DrawerScreens,
+        
     }, {
         transition: (
             <Transition.Together>

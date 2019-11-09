@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, BackHandler } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles';
 import Extra from '../../components/Extra-Item/index';
@@ -7,38 +7,51 @@ import Mask from '../../common/textMask';
 import whiteArrow from '../../assets/images/white-arrow.png';
 
 export default (props) => {
-    const item = props.navigation.state.params;
-    const [total, setTotal] = useState({qtd:1, value:item.price});
+    const params = props.navigation.state.params;
+    const [total, setTotal] = useState({qtd:1, value:params.item.price});
     const [comment, setComment] = useState(null);
     const totalState = useSelector(state => state.extra.total);
     const dispatch = useDispatch();
 
 
     function loadItems(){
-       return item.items.map((value)=>(
-                <Extra key={item.key+value.name} name={value.name} price={value.price}/>
+       return params.item.items.map((value)=>(
+                <Extra key={params.item.key+value.name} name={value.name} price={value.price}/>
             )
        )
     }
 
     useEffect(()=>{
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+        function handleBackPress(){
+            if(params.direct === 0){
+                props.navigation.navigate('ProductList'); 
+            }
+            backHandler.remove();
+            return true;
+        }
+
+    }, []) 
+        
+    useEffect(()=>{
         setComment('');
-        setTotal({qtd:1, value:item.price});
+        setTotal({qtd:1, value:params.item.price});
         if(totalState !== '0' && totalState !== undefined){
             dispatch({type:'CLEAR_TOTAL', total:'R$0,00'})
         }
-    }, [item]);
+    }, [params]);
 
     useEffect(()=>{
         let qtd = total.qtd;
-        let value = (Mask.maskTotal(item.price) * qtd)+Mask.maskTotal(totalState);
+        let value = (Mask.maskTotal(params.item.price) * qtd)+Mask.maskTotal(totalState);
         value = 'R$'+value.toFixed(2).replace('.', ',');
         setTotal({ qtd, value });
     }, [totalState])
 
     function addQTD(){
         let qtd = total.qtd + 1;
-        let value = ((Mask.maskTotal(item.price) * qtd)+Mask.maskTotal(totalState)).toFixed(2);
+        let value = ((Mask.maskTotal(params.item.price) * qtd)+Mask.maskTotal(totalState)).toFixed(2);
         value = value.replace('.', ',');
         setTotal({qtd, value:'R$'+value});
         return total.qtd;
@@ -47,7 +60,7 @@ export default (props) => {
     function minusQTD(){
         if(total.qtd > 1){
             let qtd = total.qtd - 1;
-            let value = ((Mask.maskTotal(item.price)*qtd)+Mask.maskTotal(totalState)).toFixed(2);
+            let value = ((Mask.maskTotal(params.item.price)*qtd)+Mask.maskTotal(totalState)).toFixed(2);
             value = value.replace('.', ',');
             setTotal({qtd, value:'R$'+value});
         }
@@ -60,19 +73,19 @@ export default (props) => {
         {/* Header */}
         <View>
             <View style={styles.containerHeader}>
-                <TouchableOpacity style={styles.backBtn} onPress={()=>props.navigation.goBack()}>
+                <TouchableOpacity style={styles.backBtn} onPress={()=>params.direct === 1 ? props.navigation.goBack() : props.navigation.navigate('ProductList')}>
                     <Image style={styles.goBack} source={whiteArrow}/>
                 </TouchableOpacity>
             </View>
 
-            <Image style={styles.productImage} source={{uri:item.url}} />        
+            <Image style={styles.productImage} source={{uri:params.item.url}} />        
         </View>
 
         {/* Description */}
         <View style={styles.containerDesc}>
             <View style={styles.productDesc}>
-                <Text style={styles.title}>{item.name}</Text>
-                <Text style={styles.desc}>{item.desc}</Text>
+                <Text style={styles.title}>{params.item.name}</Text>
+                <Text style={styles.desc}>{params.item.desc}</Text>
 
                 {/* Items */}
                 <View style={styles.containerItems}>

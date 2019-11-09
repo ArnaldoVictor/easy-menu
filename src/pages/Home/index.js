@@ -69,7 +69,7 @@ export default (props) => {
 
   useEffect(()=>{
     if(promotionItems.length > 0){
-      props.navigation.navigate('ProductsList', {type:'promotion', name:selectedPromotion, promotionItems});
+      props.navigation.navigate('ProductList', {type:'promotion', name:selectedPromotion, promotionItems});
     }
   }, [promotionItems])
 
@@ -162,7 +162,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={sections}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} onPress={()=>props.navigation.navigate('ProductsList', {type:'section', name:item.name})}/>}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} onPress={()=>props.navigation.navigate('ProductList', {type:'section', name:item.name})}/>}
               keyExtractor={(item)=> item.url}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
@@ -174,7 +174,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', item)}/>}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
@@ -186,7 +186,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', item)}/>}
+              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}

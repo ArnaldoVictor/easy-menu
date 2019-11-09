@@ -30,11 +30,11 @@ export default (props) => {
         setProducts([])
         setHeaderTitle('');
         
-        async function loadPromotionProducts(items){
+        function loadPromotionProducts(items){
             const list = [];
             const productList = Object.values(items);
     
-            await productList.map(item => {
+            productList.map(item => {
                 list.push({
                     key:item.key,
                     name:item.name,
@@ -62,7 +62,7 @@ export default (props) => {
 
     function renderProducts(){
         return products.map((item, key)=>(
-            <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', item)}>
+            <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', {item, direct:0})}>
                 <Product name={item.name} desc={item.desc} price={item.price} url={item.url}/>
             </TouchableOpacity>
 
