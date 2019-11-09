@@ -7,6 +7,7 @@ import styles from './styles';
 
 export default (props) => {
     const [products, setProducts] = useState([]);
+    const [headerTitle, setHeaderTitle] = useState('');
     const obj = props.navigation.state.params;
 
     async function loadProducts(snapshot){
@@ -26,39 +27,41 @@ export default (props) => {
     }
 
     useEffect(()=>{
-        setProducts([]);
+        setProducts([])
+        setHeaderTitle('');
         
+        async function loadPromotionProducts(items){
+            const list = [];
+            const productList = Object.values(items);
+    
+            await productList.map(item => {
+                list.push({
+                    key:item.key,
+                    name:item.name,
+                    desc:item.desc,
+                    url:item.imageUrl,
+                    price:item.price,
+                    items:item.items
+                })
+            })
+            setProducts(list);
+        }
+
+
         if(obj.type === 'section'){
             const ref = Easy.getProducts().orderByChild(obj.type).equalTo(obj.name);
             ref.once('value', loadProducts);
         }else{
-           loadPromotionProducts(obj.promotionItems);
+            loadPromotionProducts(obj.promotionItems)
         }
+        setHeaderTitle(obj.name);
         
-
+        
     }, [obj]);
 
 
-    async function loadPromotionProducts(items){
-        const list = [];
-        const productList = Object.values(items);
-
-        productList.map(item => {
-            list.push({
-                key:item.key,
-                name:item.name,
-                desc:item.desc,
-                url:item.imageUrl,
-                price:item.price,
-                items:item.items
-            })
-        })
-        setProducts(list);
-    }
-
     function renderProducts(){
         return products.map((item, key)=>(
-            
             <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', item)}>
                 <Product name={item.name} desc={item.desc} price={item.price} url={item.url}/>
             </TouchableOpacity>
@@ -72,7 +75,7 @@ export default (props) => {
             <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
                 <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>{obj.type === 'section' ? obj.name : obj.promotionName}</Text>
+            <Text style={styles.headerTitle}>{headerTitle}</Text>
         </View>
         <View style={styles.container}>
             {products.length > 0 && renderProducts()}

@@ -13,8 +13,9 @@ export default (props) => {
     const totalState = useSelector(state => state.extra.total);
     const dispatch = useDispatch();
 
+
     function loadItems(){
-       return item.items.map((value, key)=>(
+       return item.items.map((value)=>(
                 <Extra key={item.key+value.name} name={value.name} price={value.price}/>
             )
        )

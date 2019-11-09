@@ -68,7 +68,9 @@ export default (props) => {
   }
 
   useEffect(()=>{
-    props.navigation.navigate('ProductsList', {promotionName:selectedPromotion, promotionItems});
+    if(promotionItems.length > 0){
+      props.navigation.navigate('ProductsList', {type:'promotion', name:selectedPromotion, promotionItems});
+    }
   }, [promotionItems])
 
   function loadPromotions(snapshot){
@@ -95,7 +97,8 @@ export default (props) => {
         name:product.val().name,
         price:product.val().price,
         url:product.val().imageUrl,
-        desc:product.val().desc
+        desc:product.val().desc,
+        items:product.val().items
       });
     });
     setProducts(list);
