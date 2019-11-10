@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
 
 export default (props) => {
     const [check, setCheck] = useState(false);
-    const items = useSelector(state => state.items);
     const dispatch = useDispatch();
 
     function addExtraItem(){
@@ -22,7 +21,8 @@ export default (props) => {
     return (
 
         <View style={styles.checkBoxArea}>
-            <CheckBox onChange={addExtraItem} value={check}/>
+
+            {props.order !== 1 && <CheckBox onChange={addExtraItem} value={check}/>}
             <View style={styles.priceArea}>
                 <Text style={styles.item}>{props.name}</Text>
                 <Text style={styles.priceText}>{props.price}</Text>

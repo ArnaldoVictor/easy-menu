@@ -80,7 +80,7 @@ export default (props) => {
       list.push({
         key:promotion.key,
         name:promotion.val().name,
-        url:promotion.val().imageUrl,
+        imageUrl:promotion.val().imageUrl,
         products:promotion.val().products
       });
     })
@@ -96,7 +96,7 @@ export default (props) => {
         key:product.key,
         name:product.val().name,
         price:product.val().price,
-        url:product.val().imageUrl,
+        imageUrl:product.val().imageUrl,
         desc:product.val().desc,
         items:product.val().items
       });
@@ -110,7 +110,7 @@ export default (props) => {
     snapshot.forEach(section =>{
       list.push({
         name:section.val().name,
-        url:section.val().imageUrl
+        imageUrl:section.val().imageUrl
       })
     })
     setSections(list);
@@ -150,7 +150,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={promotions}
-              renderItem={({item})=><Promotion name={item.name} url={item.url} onPress={()=>getPromotionItems(item.name)}/>}
+              renderItem={({item})=><Promotion name={item.name} url={item.imageUrl} onPress={()=>getPromotionItems(item.name)}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
@@ -162,8 +162,8 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={sections}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} onPress={()=>props.navigation.navigate('ProductList', {type:'section', name:item.name})}/>}
-              keyExtractor={(item)=> item.url}
+              renderItem={({item})=><ItemMenu url={item.imageUrl} name={item.name} onPress={()=>props.navigation.navigate('ProductList', {type:'section', name:item.name})}/>}
+              keyExtractor={(item)=> item.imageUrl}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
             />
@@ -174,7 +174,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
+              renderItem={({item})=><ItemMenu url={item.imageUrl} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}
@@ -186,7 +186,7 @@ export default (props) => {
             <FlatList 
               horizontal={true}
               data={products}
-              renderItem={({item})=><ItemMenu url={item.url} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
+              renderItem={({item})=><ItemMenu url={item.imageUrl} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}
               showsHorizontalScrollIndicator={false}

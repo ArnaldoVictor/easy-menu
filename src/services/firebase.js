@@ -1,6 +1,7 @@
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 
 export default { 
@@ -68,6 +69,7 @@ export default {
             section
         });
     },
+
     newSection(sectionName, url){
         let ref = database().ref('sections');
         ref.child(sectionName).set({
@@ -83,6 +85,30 @@ export default {
             imageUrl:url,
             products:items
         });
+    },
+
+    setOrder(tempKey, address, products, extraItems, observation, qtd, total){
+        const ref = database().ref('orders/undone');
+        let key = tempKey === '' ? ref.push().key : tempKey;
+        let orderKey = ref.child(key).push().key;
+
+        if(key === tempKey){
+            ref.child(key+'/address').set(address);
+        }
+
+        ref.child(key).child(orderKey).set({
+            products,
+            extraItems,
+            observation,
+            qtd,
+            total
+        })
+
+        return key;
+    },
+
+    getOrderProducts(key){
+        return database().ref('orders/undone/'+key)
     },
 
     refUploadImage(path){

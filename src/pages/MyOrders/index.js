@@ -1,11 +1,88 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import styles from './styles';
+import Easy from '../../services/firebase';
+import Mask from '../../common/textMask';
 import Product from '../../components/Product/index';
 import Extra from '../../components/Extra-Item/index';
-import styles from './styles';
 
 export default (props) => {
+    const key = useSelector(state=>state.order.key);
+    const [products, setProducts] = useState([]);
+    const [extraItems, setExtraItems] = useState([]);
+    const [total, setTotal] = useState([]);
+    const [address, setAddress] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    function loadProducts(snapshot){
+        const list = [];
+        let extraItemList = [];
+
+        snapshot.forEach((product)=>{
+
+            product.child('extraItems/0').forEach((item)=>{
+                extraItemList.push({
+                    name:item.child('name').val(),
+                    price:item.child('price').val()
+                })
+            })
+
+            list.push({
+                key:product.key,
+                name:product.child('products/0/name').val(),
+                price:product.child('products/0/price').val(),
+                url:product.child('products/0/url').val(),
+                desc:product.child('products/0/desc').val(),
+                items:product.child('products/0/items').val()
+            });
+
+        })
+        setAddress(snapshot.child('address').val())
+        
+        list.pop();
+        extraItemList = Object.values(
+            extraItemList.reduce((list, item) => {
+              if(list[item.name]) 
+                list[item.name].price = 'R$'+(Mask.maskTotal(item.price)+Mask.maskTotal(list[item.name].price)).toFixed(2).replace('.', ',');
+              else 
+                list[item.name] = item;
+            
+              return list
+            }, {}))
+        setExtraItems(extraItemList)
+
+        setProducts(list);
+
+    }
+
+
+    useEffect(()=>{
+        async function getProducts(){
+            const ref = Easy.getOrderProducts(key);
+            await ref.on('value', loadProducts)
+        }
+
+        getProducts();
+
+    }, [refreshing])
+
+    function renderProductList(){
+        return products.map((item, key)=>(
+            <Product key={key} order={1} name={item.name} desc={item.desc} price={item.price} url={item.url} last={products.length -1 === key && 1}/>
+        ))
+
+    }
+
+    function renderExtraItems(){
+
+        
+        return extraItems.map((item, key)=>(
+            <Extra key={key} order={1} name={item.name}  price={item.price} />
+        ))
+    }
+
     return (
         <ScrollView style={styles.scrollContainer}>
             <View style={styles.header}>
@@ -16,30 +93,20 @@ export default (props) => {
             </View>
             <View style={styles.headerOrder}>
                 <Image style={styles.orderStatus} source={require('../../assets/images/meal.png')}/>
-                <Text style={styles.address}>Mesa 1</Text>
+                <Text style={styles.address}>{address}</Text>
             </View>
             <ScrollView
                 nestedScrollEnabled={true}
                 style={styles.productList}
             >
-                <Product order={1} name='Teste' desc='Desc' price='R$20,00' url='https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2FCarne%20Moida.jpg?alt=media&token=08d716f3-c35d-44c2-a00b-15f836c01310'/>
-                <Product order={1} name='Teste' desc='Desc' price='R$20,00' url='https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2FCarne%20Moida.jpg?alt=media&token=08d716f3-c35d-44c2-a00b-15f836c01310'/>
-                <Product order={1} name='Teste' desc='Desc' price='R$20,00' url='https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2FCarne%20Moida.jpg?alt=media&token=08d716f3-c35d-44c2-a00b-15f836c01310'/>
-                <Product order={1} name='Teste' desc='Desc' price='R$20,00' url='https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2FCarne%20Moida.jpg?alt=media&token=08d716f3-c35d-44c2-a00b-15f836c01310'/>
-                <Product order={1} name='Teste' desc='Desc' price='R$20,00' url='https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2FCarne%20Moida.jpg?alt=media&token=08d716f3-c35d-44c2-a00b-15f836c01310'/>
-                <Product last={1} order={1} name='Teste' desc='Desc' price='R$20,00' url='https://firebasestorage.googleapis.com/v0/b/easy-menu-6b476.appspot.com/o/images%2FCarne%20Moida.jpg?alt=media&token=08d716f3-c35d-44c2-a00b-15f836c01310'/>
-
+                {products.length > 0 && renderProductList()}
             </ScrollView>
             <ScrollView
                 nestedScrollEnabled={true}
             >
                 <Text style={styles.addTitle}>Adicionais</Text>
                 <View style={styles.extraItemArea}>
-                    <Extra key={1} name='Teste Extra' price='R$2,00'/>
-                    <Extra key={2} name='Teste Extra' price='R$3,00'/>
-                    <Extra key={3} name='Teste Extra' price='R$1,00'/>
-                    <Extra key={4} name='Teste Extra' price='R$5,00'/>
-                    <Extra key={5} name='Teste Extra' price='R$6,00'/>
+                    {extraItems.length > 0 && renderExtraItems()}
                 </View>
 
                 {/* Total */}

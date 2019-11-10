@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import ExtraItemReducer from '../reducers/ExtraReducer';
-import GetProductsReducer from '../reducers/GetProductsReducer';
+import OrderReducer from '../reducers/OrderReducer';
 
 const Reducers = combineReducers({
     extra:ExtraItemReducer,
-    getProducts:GetProductsReducer
+    order:OrderReducer
 });
 
 export default Reducers;

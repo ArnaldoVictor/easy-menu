@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, BackHandler } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, BackHandler, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles';
 import Extra from '../../components/Extra-Item/index';
@@ -11,8 +11,16 @@ export default (props) => {
     const [total, setTotal] = useState({qtd:1, value:params.item.price});
     const [comment, setComment] = useState(null);
     const totalState = useSelector(state => state.extra.total);
+    const items = useSelector(state => state.extra.items);
+    const teste = useSelector(state => state);
     const dispatch = useDispatch();
 
+
+    function order(){
+        dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items});
+
+        Alert.alert('Pedido', 'Pedido feito com sucesso!');
+    }
 
     function loadItems(){
        return params.item.items.map((value)=>(
@@ -25,6 +33,7 @@ export default (props) => {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 
         function handleBackPress(){
+            dispatch({type:'CLEAR_ITEMS', confirm:1})
             if(params.direct === 0){
                 props.navigation.navigate('ProductList'); 
             }
@@ -67,13 +76,22 @@ export default (props) => {
         return total.qtd;
     }
 
+    function goBack(){
+        dispatch({type:'CLEAR_ITEMS', confirm:1})
+        if(params.direct === 1) {
+            props.navigation.goBack()
+        }else{
+            props.navigation.navigate('ProductList')
+        } 
+    }
+
     return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <StatusBar hidden={true}/>
         {/* Header */}
         <View>
             <View style={styles.containerHeader}>
-                <TouchableOpacity style={styles.backBtn} onPress={()=>params.direct === 1 ? props.navigation.goBack() : props.navigation.navigate('ProductList')}>
+                <TouchableOpacity style={styles.backBtn} onPress={goBack}>
                     <Image style={styles.goBack} source={whiteArrow}/>
                 </TouchableOpacity>
             </View>
@@ -102,7 +120,7 @@ export default (props) => {
                             multiline={true}
                             numberOfLines={32}
                             value={comment}
-                            onChangeText={()=>setComment(null)}
+                            onChangeText={(text)=>setComment(text)}
                         />
                     </View>
                 </View>
@@ -131,7 +149,7 @@ export default (props) => {
 
                 {/* Button */}
                 <View style={styles.ButtonArea}>
-                    <TouchableOpacity style={styles.order}>
+                    <TouchableOpacity style={styles.order} onPress={order}>
                         <Text style={styles.TBtn}>Fazer Pedido</Text>
                     </TouchableOpacity>
                 </View>
