@@ -112,6 +112,11 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: 0, height: 2},
         textShadowRadius: 4,
         color: '#FFFFFF'
+    },
+    emptyList:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
     }
 
 })
