@@ -92,7 +92,7 @@ export default {
         let key = tempKey === '' ? ref.push().key : tempKey;
         let orderKey = ref.child(key).push().key;
 
-        if(key === tempKey){
+        if(tempKey === ''){
             ref.child(key+'/address').set(address);
         }
 

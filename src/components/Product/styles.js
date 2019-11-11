@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         marginRight:20
     },
     productName:{
-        width:width-120,
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'bold',
@@ -57,6 +56,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
         color:'#6A6A6A'
+    },
+    amount:{
+        color:'#3B5998',
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 14
     }
 
 

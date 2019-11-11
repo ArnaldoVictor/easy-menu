@@ -24,6 +24,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight:30,
         color:'#3DD6B5'
+    },
+    amount:{
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 20,
+        lineHeight: 30,
+        color:'#3B5998'
     }
 
 });

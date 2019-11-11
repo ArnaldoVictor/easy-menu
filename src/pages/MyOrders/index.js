@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, ScrollView, Text, TouchableOpacity, Image, RefreshControl } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, Image, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import styles from './styles';
 import Easy from '../../services/firebase';
@@ -14,6 +14,16 @@ export default (props) => {
     const [extraItems, setExtraItems] = useState([]);
     const [total, setTotal] = useState([]);
     const [address, setAddress] = useState([]);
+    const listener = props.navigation.addListener('didFocus', refresh);
+
+    function refresh(){
+
+        if(key !== '')
+            getProducts();
+        
+        listener.remove()
+
+    }
 
     function loadProducts(snapshot){
         let list = [];
@@ -22,12 +32,15 @@ export default (props) => {
 
         snapshot.forEach((product)=>{
 
-            product.child('extraItems/0').forEach((item)=>{
-                extraItemList.push({
-                    name:item.child('name').val(),
-                    price:item.child('price').val()
+            if(product.child('extraItems/0')){
+                product.child('extraItems/0').forEach((item)=>{
+                    extraItemList.push({
+                        name:item.child('name').val(),
+                        price:item.child('price').val(),
+                        qtd:item.child('qtd').val()
+                    })
                 })
-            })
+            }
 
             list.push({
                 key:product.key,
@@ -35,8 +48,7 @@ export default (props) => {
                 price:product.child('products/0/price').val(),
                 url:product.child('products/0/url').val(),
                 desc:product.child('products/0/desc').val(),
-                qtd:product.child('qtd').val(),
-                items:product.child('products/0/items').val()
+                qtd:product.child('qtd').val()
             });
 
         })
@@ -44,24 +56,32 @@ export default (props) => {
         
         list.pop();
 
-        extraItemList = Object.values(
-            extraItemList.reduce((list, item) => {
-                newTotal = 'R$'+(Mask.maskTotal(newTotal)+Mask.maskTotal(item.price)).toFixed(2).replace('.', ',');
-                if(list[item.name])
-                    list[item.name].price = 'R$'+(Mask.maskTotal(item.price)+Mask.maskTotal(list[item.name].price)).toFixed(2).replace('.', ',');
-                else
-                    list[item.name] = item;
-
-                return list
-            }, {}))
+        if(extraItemList.length >0){
+            extraItemList = Object.values(
+                extraItemList.reduce((list, item) => {
+                    newTotal = 'R$'+(Mask.maskTotal(newTotal)+Mask.maskTotal(item.price)).toFixed(2).replace('.', ',');
+                    if(list[item.name]){
+                        list[item.name].price = 'R$'+(Mask.maskTotal(item.price)+Mask.maskTotal(list[item.name].price)).toFixed(2).replace('.', ',');
+                        list[item.name].qtd += 1;
+    
+                    }else{
+                        list[item.name] = item;
+                    }      
+    
+                    return list
+                }, {}))
+        }
         
         list = Object.values(
             list.reduce((list, item) => {
-                newTotal = 'R$'+(Mask.maskTotal(newTotal)+Mask.maskTotal(item.price)).toFixed(2).replace('.', ',');
-                if(list[item.name])
+                if(list[item.name]){
                     list[item.name].price = 'R$'+(Mask.maskTotal(item.price)+Mask.maskTotal(list[item.name].price)).toFixed(2).replace('.', ',');
-                else
+                    list[item.name].qtd += 1;
+                }else{
                     list[item.name] = item;
+                    list[item.name].price = 'R$'+(Mask.maskTotal(item.price)*list[item.name].qtd).toFixed(2).replace('.', ',')
+                }
+                newTotal = 'R$'+(Mask.maskTotal(newTotal)+Mask.maskTotal(item.price)).toFixed(2).replace('.', ',');
 
                 return list
             }, {}))
@@ -78,11 +98,16 @@ export default (props) => {
     }
 
     useEffect(()=>{
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 
-        if(key !== '')
-            getProducts();
+        function handleBackPress(){
+            props.navigation.navigate('Home', {order:products.length > 0 ? 'YES' : 'NO'})
 
-    }, [props.navigation.state.params])
+            backHandler.remove();
+            return true;
+        }
+
+    }, []) 
 
     function renderProductList(){
         return products.map((item, key)=>(
@@ -92,10 +117,8 @@ export default (props) => {
     }
 
     function renderExtraItems(){
-
-        
         return extraItems.map((item, key)=>(
-            <Extra key={key} order={1} name={item.name}  price={item.price} />
+            <Extra qtd={item.qtd} key={key} order={1} name={item.name}  price={item.price} />
         ))
     }
 
@@ -104,7 +127,7 @@ export default (props) => {
         <React.Fragment>
                 
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
+                    <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.navigate('Home')}>
                         <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Meus Pedidos</Text>
@@ -146,10 +169,13 @@ export default (props) => {
             <ScrollView
                 nestedScrollEnabled={true}
             >
-                <Text style={styles.addTitle}>Adicionais</Text>
-                <View style={styles.extraItemArea}>
-                    {extraItems.length > 0 && renderExtraItems()}
-                </View>
+                {extraItems.length > 0 && 
+                    <Text style={styles.addTitle}>Adicionais</Text>
+                }
+                    <View style={styles.extraItemArea}>
+                        {extraItems.length > 0 && renderExtraItems()}
+                    </View>
+                
 
                 {/* Total */}
                 <View style={styles.priceArea}>

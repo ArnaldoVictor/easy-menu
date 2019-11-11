@@ -86,8 +86,6 @@ const StackScreens = createStackNavigator({
 });
 
 
-
-
 const Routes = createAppContainer(
     createAnimatedSwitchNavigator({
         StackScreens,

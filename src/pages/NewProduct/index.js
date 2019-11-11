@@ -32,7 +32,7 @@ export default (props) => {
 
     function addItem(item, price){
         if(item !== ''){
-            setList([...list, {name:item, price}]);
+            setList([...list, {name:item, price, qtd:1}]);
         }
     }
 

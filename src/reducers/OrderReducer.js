@@ -26,7 +26,7 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             const extraItems = [];
 
             products.push(action.product);
-            extraItems.push(action.items);
+            action.items.length > 0 && extraItems.push(action.items);
             state.products = products;
             state.extraItems = extraItems;
             state.observation = action.observation;

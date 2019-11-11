@@ -12,13 +12,11 @@ export default (props) => {
     const [comment, setComment] = useState(null);
     const totalState = useSelector(state => state.extra.total);
     const items = useSelector(state => state.extra.items);
-    const teste = useSelector(state => state);
     const dispatch = useDispatch();
 
 
     function order(){
         dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items});
-
         Alert.alert('Pedido', 'Pedido feito com sucesso!');
     }
 
