@@ -111,6 +111,10 @@ export default {
         return database().ref('orders/undone/'+key)
     },
 
+    getAllOrderProducts(){
+        return database().ref('orders/undone');
+    },
+
     refUploadImage(path){
         return storage().ref().child(path)
     },

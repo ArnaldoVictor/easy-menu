@@ -32,7 +32,7 @@ export default (props) => {
 
         snapshot.forEach((product)=>{
 
-            if(product.child('extraItems/0')){
+            if(product.child('extraItems/0') !== null){
                 product.child('extraItems/0').forEach((item)=>{
                     extraItemList.push({
                         name:item.child('name').val(),
@@ -42,19 +42,19 @@ export default (props) => {
                 })
             }
 
-            list.push({
-                key:product.key,
-                name:product.child('products/0/name').val(),
-                price:product.child('products/0/price').val(),
-                url:product.child('products/0/url').val(),
-                desc:product.child('products/0/desc').val(),
-                qtd:product.child('qtd').val()
-            });
+            if(product.child('products/0').val() !== null){
+                list.push({
+                    key:product.key,
+                    name:product.child('products/0/name').val(),
+                    price:product.child('products/0/price').val(),
+                    url:product.child('products/0/url').val(),
+                    desc:product.child('products/0/desc').val(),
+                    qtd:product.child('qtd').val()
+                });
+            }
 
         })
         setAddress(snapshot.child('address').val())
-        
-        list.pop();
 
         if(extraItemList.length >0){
             extraItemList = Object.values(

@@ -15,6 +15,7 @@ import AddSection from './pages/AddSection/index';
 import AddPromotion from './pages/AddPromotion/index';
 import ProductList from './pages/ProductList/index';
 import MyOrders from './pages/MyOrders/index';
+import Orders from './pages/Orders/index';
 
 const DrawerScreens = createDrawerNavigator({
     Home,
@@ -54,6 +55,12 @@ const DrawerScreens = createDrawerNavigator({
         screen:MyOrders,
         navigationOptions:{
             title:'Meus Pedidos'
+        }
+    },
+    Orders:{
+        screen:Orders,
+        navigationOptions:{
+            title:'Pedidos'
         }
     },
     SignOut:{
