@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, BackHandler, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles';
 import Extra from '../../components/Extra-Item/index';
@@ -12,13 +13,23 @@ export default (props) => {
     const [comment, setComment] = useState(null);
     const totalState = useSelector(state => state.extra.total);
     const items = useSelector(state => state.extra.items);
+    const address = useSelector(state => state.auth.address);
+    const key = useSelector(state => state.order.key);
     const dispatch = useDispatch();
 
 
-    function order(){
-        dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items});
+    async function order(){
+        let state = await dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
+
+        await AsyncStorage.setItem('address', state.address);
         Alert.alert('Pedido', 'Pedido feito com sucesso!');
     }
+
+    useEffect(()=>{
+        if(key !== ''){
+            AsyncStorage.setItem('key', key);
+        }
+    }, [key])
 
     function loadItems(){
        return params.item.items.map((value)=>(
@@ -94,7 +105,7 @@ export default (props) => {
                 </TouchableOpacity>
             </View>
 
-            <Image style={styles.productImage} source={{uri:params.item.url}} />        
+            <Image style={styles.productImage} source={{uri:params.item.imageUrl}} />        
         </View>
 
         {/* Description */}

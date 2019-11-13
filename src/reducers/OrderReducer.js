@@ -2,7 +2,7 @@ import Easy from '../services/firebase';
 
 const INITIAL_STATE = {
     key:'',
-    address:'Mesa 1',
+    address:'',
     products:[],
     extraItems:[],
     observation:'',
@@ -30,8 +30,11 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.products = products;
             state.extraItems = extraItems;
             state.observation = action.observation;
+            state.address = action.address != undefined ? action.address : '';
             state.qtd = action.qtd;
             state.total = action.total;
+
+            console.log("State:"+state.key)
 
             if(state.key === ''){
                 state.key = Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
@@ -41,6 +44,20 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             clearState();
 
             return state;
+
+        case 'RETRIEVE_DATA':
+            state.key = action.key;
+            state.address = action.address;
+            return state;
+
+        case 'SET_ADDRESS':
+            state.address = action.address;
+            return state;
+
+        case 'CLEAR_KEY':
+            state.key = '';
+            return state;
+
         default:
             return state;
     }

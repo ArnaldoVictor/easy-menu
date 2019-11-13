@@ -1,7 +1,6 @@
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 
 export default { 
@@ -36,6 +35,10 @@ export default {
                     break;
             }
         } );
+    },
+
+    authListener(){
+        return auth().currentUser;
     },
 
     addAuthListener(callback){
@@ -136,6 +139,10 @@ export default {
 
     getPromotionItems(child){
         return database().ref('promotions/'+child+'/products');
+    },
+
+    getUserData(uid){
+        return database().ref('user-data/'+uid);
     }
 
 };

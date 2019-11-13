@@ -16,18 +16,18 @@ export default (props) => {
     const [address, setAddress] = useState([]);
 
     function loadProducts(snapshot){
-        // let list = [];
+        let list = [];
         let extraItemList = [];
         let newTotal = 'R$0,00';
-        let tempList = [];
+        // let tempList = [];
 
         snapshot.forEach((order)=>{
             let address = order.child('address').val();
 
-            if(tempList.length === 0){
-                tempList.push({ [address]:[] });
-            }
-            console.log(tempList[0][address]);
+            // if(tempList.length === 0){
+            //     tempList.push({ [address]:[] });
+            // }
+            // console.log(tempList[0][address]);
 
             order.forEach(childItem =>{
                 
@@ -42,7 +42,7 @@ export default (props) => {
                 }
             
                 if(childItem.child('products/0/name').val() !== null){
-                    tempList[0][address].push({
+                    list.push({
                         key:childItem.key,
                         name:childItem.child('products/0/name').val(),
                         price:childItem.child('products/0/price').val(),
@@ -73,23 +73,23 @@ export default (props) => {
                 }, {}))
         }
         
-        // list = Object.values(
-        //     list.reduce((list, item) => {
-        //         if(list[item.name]){
-        //             list[item.name].price = 'R$'+(Mask.maskTotal(item.price)+Mask.maskTotal(list[item.name].price)).toFixed(2).replace('.', ',');
-        //             list[item.name].qtd += 1;
-        //         }else{
-        //             list[item.name] = item;
-        //             list[item.name].price = 'R$'+(Mask.maskTotal(item.price)*list[item.name].qtd).toFixed(2).replace('.', ',')
-        //         }
-        //         newTotal = 'R$'+(Mask.maskTotal(newTotal)+Mask.maskTotal(item.price)).toFixed(2).replace('.', ',');
+        list = Object.values(
+            list.reduce((list, item) => {
+                if(list[item.name]){
+                    list[item.name].price = 'R$'+(Mask.maskTotal(item.price)+Mask.maskTotal(list[item.name].price)).toFixed(2).replace('.', ',');
+                    list[item.name].qtd += 1;
+                }else{
+                    list[item.name] = item;
+                    list[item.name].price = 'R$'+(Mask.maskTotal(item.price)*list[item.name].qtd).toFixed(2).replace('.', ',')
+                }
+                newTotal = 'R$'+(Mask.maskTotal(newTotal)+Mask.maskTotal(item.price)).toFixed(2).replace('.', ',');
 
-        //         return list
-        //     }, {}))
-        // console.log(tempList[0]);
+                return list
+            }, {}))
+
         setExtraItems(extraItemList)
         setTotal(newTotal)
-        setProducts(tempList)
+        setProducts(list)
 
     }
 
@@ -115,25 +115,9 @@ export default (props) => {
     }, []) 
 
     function renderProductList(){
-        // tables.forEach((value)=>{
-        //     products[0][value].map((item, key)=>(
-        //         <Product qtd={item.qtd} key={key} order={1} name={item.name} desc={item.desc} price={item.price} url={item.url} last={products.length -1 === key && 1}/>
-        //     ))
-        // })
-
-        // return products[0]["Mesa 1"].map((item, key)=>{
-        //     console.log("Item:", item)
-        //     console.log("key:", key)
-        // }
-        Object.keys(products[0]).map(item=>{
-            products[0][item].map(value =>{
-                console.log(value)
-            })
-        })
-       
-        // return products[0]["Mesa 1"].map((item, key)=>(
-        //     <Product qtd={item.qtd} key={key} order={1} name={item.name} desc={item.desc} price={item.price} url={item.url} last={products.length -1 === key && 1}/>
-        // ))
+        return products.map((item, key)=>(
+            <Product qtd={item.qtd} key={key} order={1} name={item.name} desc={item.desc} price={item.price} url={item.url} last={products.length -1 === key && 1}/>
+        ))
 
     }
 
@@ -206,10 +190,6 @@ export default (props) => {
                     </Text>
                 </View>
 
-                {/* Button Finish Order */}
-                <TouchableOpacity style={styles.bill}>
-                    <Text style={styles.TBtn}>Fechar a Conta</Text>
-                </TouchableOpacity>
             </ScrollView>
         </ScrollView>
     );

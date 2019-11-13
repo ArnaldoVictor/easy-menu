@@ -1,18 +1,62 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles';
 import Easy from '../../services/firebase';
-import { Formik } from 'formik';
 
 export default (props) => {
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState([]);
+  const [key, setKey] = useState('');
 
   useEffect(()=>{
+   
+    AsyncStorage.multiGet(['key', 'address'], (error, store)=>{
+      if(store[0][1] != undefined && store[1][1]){
+        let state = dispatch({type:'RETRIEVE_DATA', key:store[0][1], address:store[1][1]});
+        setKey(state.key);
+      }
+    })
+
+    let data = dispatch({type:'GET_STATE'});
+
     Easy.addAuthListener((user)=>{
-      if(user){
+      if(user != undefined && data.uid !== ''){
+        const ref = Easy.getUserData(user.uid);
+        ref.once('value', getUserData);
+        dispatch({type:'SIGN_IN', uid:user.uid});
+
         props.navigation.navigate('Home');
+
       }
     });
-  });
+
+  }, []);
+
+
+  useEffect(()=>{
+    dispatch({type:'SET_ADDRESS', address:userData[0]});
+  }, [userData])
+
+
+  function getUserData(snapshot){
+    const list = [];
+
+    list.push(snapshot.child('address').val());
+    list.push(snapshot.child('status').val());
+
+    console.log(list[0])
+
+    setUserData(list);
+
+  }
+
+  useEffect(()=>{
+    if(key !== '' && key !== null)
+      props.navigation.navigate('Home');
+  }, [key])
 
   function signIn(values){
     if(values.email != '' && values.password != ''){

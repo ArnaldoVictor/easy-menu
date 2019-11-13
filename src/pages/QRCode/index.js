@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, StatusBar, Vibration } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { useDispatch } from 'react-redux';
 import styles from './styles';
 
 export default ({navigation}) => {
@@ -8,18 +9,27 @@ export default ({navigation}) => {
     const [barCodeType, setBarCodeType] = useState(null);
     const [barCodeData, setBarCodeData] = useState(null);
     const [isLoading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         setTimeout(()=>setLoading(false), 200);
     }, []);
 
     function readCode(object){
-        if(object.type != null && barCodeType === null){
+        if(object.type === 'QR_CODE'){
             setBarCodeType(object.type);
             setBarCodeData(object.data);
             Vibration.vibrate(100);
         }
     }
+
+    useEffect(()=>{
+        if(barCodeData !== null && barCodeType !== null){
+            dispatch({type:'QR_READ', address:barCodeData});
+            navigation.navigate('Home');
+        }
+        
+    }, [barCodeData])
 
     return (
         // Container

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
+import { useDispatch } from 'react-redux';
 import styles from './styles';
 import Easy from '../../services/firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +15,7 @@ export default (props) => {
   const [selectedPromotion, setSelectedPromotion] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   function onRefresh(){
     setRefreshing(true);
@@ -21,7 +23,7 @@ export default (props) => {
   }
 
   useEffect(()=>{
-    
+
     async function getProducts(){
       const ref = Easy.getProducts();
       await ref.once('value', loadLists);
@@ -37,7 +39,7 @@ export default (props) => {
       await ref.once('value', loadPromotions);
       
     }
-
+    
     getPromotions();
     getSections();
     getProducts();

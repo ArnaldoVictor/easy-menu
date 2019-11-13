@@ -13,7 +13,7 @@ export default (props) => {
     const [products, setProducts] = useState([]);
     const [extraItems, setExtraItems] = useState([]);
     const [total, setTotal] = useState([]);
-    const [address, setAddress] = useState([]);
+    const address = useSelector(state => state.order.address);
     const listener = props.navigation.addListener('didFocus', refresh);
 
     function refresh(){
@@ -47,14 +47,13 @@ export default (props) => {
                     key:product.key,
                     name:product.child('products/0/name').val(),
                     price:product.child('products/0/price').val(),
-                    url:product.child('products/0/url').val(),
+                    url:product.child('products/0/imageUrl').val(),
                     desc:product.child('products/0/desc').val(),
                     qtd:product.child('qtd').val()
                 });
             }
 
         })
-        setAddress(snapshot.child('address').val())
 
         if(extraItemList.length >0){
             extraItemList = Object.values(

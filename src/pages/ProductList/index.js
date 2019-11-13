@@ -20,7 +20,7 @@ export default (props) => {
                 desc:product.val().desc,
                 price:product.val().price,
                 items:product.val().items,
-                url:product.val().imageUrl
+                imageUrl:product.val().imageUrl
             })
         });
         setProducts(list);
@@ -39,7 +39,7 @@ export default (props) => {
                     key:item.key,
                     name:item.name,
                     desc:item.desc,
-                    url:item.imageUrl,
+                    imageUrl:item.imageUrl,
                     price:item.price,
                     items:item.items
                 })
@@ -63,7 +63,7 @@ export default (props) => {
     function renderProducts(){
         return products.map((item, key)=>(
             <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', {item, direct:0})}>
-                <Product name={item.name} desc={item.desc} price={item.price} url={item.url}/>
+                <Product name={item.name} desc={item.desc} price={item.price} url={item.imageUrl}/>
             </TouchableOpacity>
 
         ));
