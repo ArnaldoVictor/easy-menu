@@ -12,26 +12,23 @@ export default (props) => {
   const [key, setKey] = useState('');
 
   useEffect(()=>{
-   
+
+    Easy.addAuthListener((user)=>{
+      if(user){
+        const ref = Easy.getUserData(user.uid);
+        ref.once('value', getUserData);
+        dispatch({type:'SIGN_IN', uid:user.uid});
+
+        props.navigation.navigate('Home');  
+      }
+    });
+
     AsyncStorage.multiGet(['key', 'address'], (error, store)=>{
       if(store[0][1] != undefined && store[1][1]){
         let state = dispatch({type:'RETRIEVE_DATA', key:store[0][1], address:store[1][1]});
         setKey(state.key);
       }
     })
-
-    let data = dispatch({type:'GET_STATE'});
-
-    Easy.addAuthListener((user)=>{
-      if(user != undefined && data.uid !== ''){
-        const ref = Easy.getUserData(user.uid);
-        ref.once('value', getUserData);
-        dispatch({type:'SIGN_IN', uid:user.uid});
-
-        props.navigation.navigate('Home');
-
-      }
-    });
 
   }, []);
 
@@ -46,8 +43,6 @@ export default (props) => {
 
     list.push(snapshot.child('address').val());
     list.push(snapshot.child('status').val());
-
-    console.log(list[0])
 
     setUserData(list);
 

@@ -5,8 +5,6 @@ import Easy from '../../services/firebase';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default (props) => {
-    const key = useSelector(state => state.order.key);
-    const uid = useSelector(state => state.auth.uid);
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -15,15 +13,14 @@ export default (props) => {
           await dispatch({type:'CLEAR_KEY'});
           await AsyncStorage.multiRemove(['key', 'address']);
       }
+      signOut();
     
       let state = dispatch({type:'SIGN_OUT'});
-      console.log(state.uid);
-      if(state.uid !== '')
-        Easy.logout();    
-        
-      signOut();
-      props.navigation.navigate('Login', {user:'logout'});
-          
+      if(state.uid !==  ''){
+        Easy.logout();
+        props.navigation.navigate('Login');
+      }
+         
     }, []);
     
   return (
