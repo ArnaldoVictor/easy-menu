@@ -16,6 +16,7 @@ export default function AuthReducer(state = INITIAL_STATE,  action){
 
         case 'SIGN_OUT':
             state.uid = action.uid;
+            state.address = action.address;
             return state;
             
         default:

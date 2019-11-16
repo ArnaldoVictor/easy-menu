@@ -1,66 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles';
 import Easy from '../../services/firebase';
 
 export default (props) => {
-  const dispatch = useDispatch();
   const [userData, setUserData] = useState([]);
-  const [key, setKey] = useState('');
-  const [initilizing, setInitilizing] = useState(true);
   const [user, setUser] = useState(undefined);
+  const key = useSelector(state => state.order.key);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
 
-    const subscriber = Easy.addAuthListener(onAuthStateChanged);
-
-    // AsyncStorage.multiGet(['key', 'address'], (error, store)=>{
-    //   if(store[0][1] != undefined && store[1][1]){
-    //     let state = dispatch({type:'RETRIEVE_DATA', key:store[0][1], address:store[1][1]});
-    //     setKey(state.key);
-    //   }
-    // })
-
-    return subscriber;
+    Easy.addAuthListener((user)=>{
+      if(user){
+        setUser(user);
+      }else{
+        setUser('');
+        if(key !== '')
+          props.navigation.navigate('Home')
+      }
+    });
 
   }, []);
 
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initilizing) setInitilizing(false);
-  }
 
   useEffect(()=>{
 
-    if(user != undefined && user !== ''){
-      console.log(user);
-      // const ref = Easy.getUserData(user.uid);
-      // ref.once('value', getUserData);
+    console.log(key)
 
-      // dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0]});
+    if(user != undefined && user !== ''){
+      const ref = Easy.getUserData(user.uid);
+      ref.once('value', getUserData);
+
+      dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0]});
       props.navigation.navigate('Home');
 
     }
   },[user])
 
 
-  useEffect(()=>{
-    dispatch({type:'SET_ADDRESS', address:userData[0]});
-  }, [userData])
+  // useEffect(()=>{
+  //   dispatch({type:'SET_ADDRESS', address:userData[0]});
+  // }, [userData])
 
 
-  // function getUserData(snapshot){
-  //   const list = [];
+  function getUserData(snapshot){
+    const list = [];
 
-  //   list.push(snapshot.child('address').val());
-  //   list.push(snapshot.child('status').val());
+    list.push(snapshot.child('address').val());
+    list.push(snapshot.child('status').val());
 
-  //   setUserData(list);
+    setUserData(list);
 
-  // }
+  }
 
   // useEffect(()=>{
   //   if(key !== '' && key !== null)

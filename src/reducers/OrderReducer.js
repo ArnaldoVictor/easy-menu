@@ -34,12 +34,10 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.qtd = action.qtd;
             state.total = action.total;
 
-            console.log("State:"+state.key)
-
             if(state.key === ''){
                 state.key = Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
             }else{
-                Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
+                state.key = Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
             }
             clearState();
 
@@ -54,8 +52,11 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.address = action.address;
             return state;
 
-        case 'CLEAR_KEY':
+        case 'CLEAR_ALL':
+            clearState()
             state.key = '';
+            state.address = '';
+
             return state;
 
         default:

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, BackHandler, Alert } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles';
 import Extra from '../../components/Extra-Item/index';
@@ -14,22 +13,14 @@ export default (props) => {
     const totalState = useSelector(state => state.extra.total);
     const items = useSelector(state => state.extra.items);
     const address = useSelector(state => state.auth.address);
-    const key = useSelector(state => state.order.key);
     const dispatch = useDispatch();
 
 
     async function order(){
-        dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
-        // let state = await 
-        // await AsyncStorage.setItem('address', state.address);
+        let state = await dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
+        console.log(state);
         Alert.alert('Pedido', 'Pedido feito com sucesso!');
     }
-
-    useEffect(()=>{
-        if(key !== ''){
-            AsyncStorage.setItem('key', key);
-        }
-    }, [key])
 
     function loadItems(){
        return params.item.items.map((value)=>(
