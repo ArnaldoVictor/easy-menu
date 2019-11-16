@@ -67,7 +67,8 @@ const DrawerScreens = createDrawerNavigator({
         screen:SignOut,
         navigationOptions:{
             title:'Deslogar'
-        }
+        },
+        
     }
 });
 

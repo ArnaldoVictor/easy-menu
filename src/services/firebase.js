@@ -37,10 +37,6 @@ export default {
         } );
     },
 
-    authListener(){
-        return auth().currentUser;
-    },
-
     addAuthListener(callback){
         return auth().onAuthStateChanged(callback);
     },

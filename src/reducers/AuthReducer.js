@@ -11,10 +11,11 @@ export default function AuthReducer(state = INITIAL_STATE,  action){
 
         case 'SIGN_IN':
             state.uid = action.uid;
+            state.address = action.address;
             return state;
 
         case 'SIGN_OUT':
-            state.uid = '';
+            state.uid = action.uid;
             return state;
             
         default:

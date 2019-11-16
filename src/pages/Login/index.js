@@ -10,27 +10,41 @@ export default (props) => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState([]);
   const [key, setKey] = useState('');
+  const [initilizing, setInitilizing] = useState(true);
+  const [user, setUser] = useState(undefined);
 
   useEffect(()=>{
 
-    Easy.addAuthListener((user)=>{
-      if(user){
-        const ref = Easy.getUserData(user.uid);
-        ref.once('value', getUserData);
-        dispatch({type:'SIGN_IN', uid:user.uid});
+    const subscriber = Easy.addAuthListener(onAuthStateChanged);
 
-        props.navigation.navigate('Home');  
-      }
-    });
+    // AsyncStorage.multiGet(['key', 'address'], (error, store)=>{
+    //   if(store[0][1] != undefined && store[1][1]){
+    //     let state = dispatch({type:'RETRIEVE_DATA', key:store[0][1], address:store[1][1]});
+    //     setKey(state.key);
+    //   }
+    // })
 
-    AsyncStorage.multiGet(['key', 'address'], (error, store)=>{
-      if(store[0][1] != undefined && store[1][1]){
-        let state = dispatch({type:'RETRIEVE_DATA', key:store[0][1], address:store[1][1]});
-        setKey(state.key);
-      }
-    })
+    return subscriber;
 
   }, []);
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initilizing) setInitilizing(false);
+  }
+
+  useEffect(()=>{
+
+    if(user != undefined && user !== ''){
+      console.log(user);
+      // const ref = Easy.getUserData(user.uid);
+      // ref.once('value', getUserData);
+
+      // dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0]});
+      props.navigation.navigate('Home');
+
+    }
+  },[user])
 
 
   useEffect(()=>{
@@ -38,20 +52,20 @@ export default (props) => {
   }, [userData])
 
 
-  function getUserData(snapshot){
-    const list = [];
+  // function getUserData(snapshot){
+  //   const list = [];
 
-    list.push(snapshot.child('address').val());
-    list.push(snapshot.child('status').val());
+  //   list.push(snapshot.child('address').val());
+  //   list.push(snapshot.child('status').val());
 
-    setUserData(list);
+  //   setUserData(list);
 
-  }
+  // }
 
-  useEffect(()=>{
-    if(key !== '' && key !== null)
-      props.navigation.navigate('Home');
-  }, [key])
+  // useEffect(()=>{
+  //   if(key !== '' && key !== null)
+  //     props.navigation.navigate('Home');
+  // }, [key])
 
   function signIn(values){
     if(values.email != '' && values.password != ''){

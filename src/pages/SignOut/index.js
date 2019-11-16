@@ -9,17 +9,21 @@ export default (props) => {
 
     useEffect(()=>{
 
-      async function signOut(){
-          await dispatch({type:'CLEAR_KEY'});
-          await AsyncStorage.multiRemove(['key', 'address']);
-      }
-      signOut();
+      // async function signOut(){
+      //     await dispatch({type:'CLEAR_KEY'});
+      //     await AsyncStorage.multiRemove(['key', 'address']);
+      // }
+      // signOut();
     
-      let state = dispatch({type:'SIGN_OUT'});
-      if(state.uid !==  ''){
-        Easy.logout();
-        props.navigation.navigate('Login');
-      }
+      // let state = dispatch({type:'SIGN_OUT', uid:''});
+      // console.log(state.uid);
+      // if(state.uid ===  ''){
+      //   Easy.logout();
+      //   props.navigation.navigate('Login', {uid:''});
+      // }
+
+      Easy.logout();
+      props.navigation.navigate('Login');
          
     }, []);
     

@@ -19,9 +19,9 @@ export default (props) => {
 
 
     async function order(){
-        let state = await dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
-
-        await AsyncStorage.setItem('address', state.address);
+        dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
+        // let state = await 
+        // await AsyncStorage.setItem('address', state.address);
         Alert.alert('Pedido', 'Pedido feito com sucesso!');
     }
 
