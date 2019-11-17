@@ -15,14 +15,17 @@ export default (props) => {
   const [selectedPromotion, setSelectedPromotion] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const state = useSelector(state => state.order);
 
 
   function onRefresh(){
     setRefreshing(true);
     setTimeout(()=>setRefreshing(false), 2000);
+
   }
 
   useEffect(()=>{
+    console.log('State Home:'+state);
 
     async function getProducts(){
       const ref = Easy.getProducts();

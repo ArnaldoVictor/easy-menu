@@ -8,18 +8,19 @@ import Easy from '../../services/firebase';
 export default (props) => {
   const [userData, setUserData] = useState([]);
   const [user, setUser] = useState(undefined);
-  const key = useSelector(state => state.order.key);
+
+  const state = useSelector(state => state.order);
   const dispatch = useDispatch();
 
   useEffect(()=>{
-
+    
     Easy.addAuthListener((user)=>{
       if(user){
         setUser(user);
       }else{
         setUser('');
-        if(key !== '')
-          props.navigation.navigate('Home')
+        // if(key !== '')
+        //   props.navigation.navigate('Home')
       }
     });
 
@@ -27,8 +28,6 @@ export default (props) => {
 
 
   useEffect(()=>{
-
-    console.log(key)
 
     if(user != undefined && user !== ''){
       const ref = Easy.getUserData(user.uid);
@@ -56,10 +55,10 @@ export default (props) => {
 
   }
 
-  // useEffect(()=>{
-  //   if(key !== '' && key !== null)
-  //     props.navigation.navigate('Home');
-  // }, [key])
+  useEffect(()=>{
+    console.log('Key:', state)
+
+  }, [state])
 
   function signIn(values){
     if(values.email != '' && values.password != ''){

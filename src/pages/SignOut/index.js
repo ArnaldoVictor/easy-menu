@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { View  } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Easy from '../../services/firebase';
-// import AsyncStorage from '@react-native-community/async-storage';
 
 export default (props) => {
     const dispatch = useDispatch();
@@ -12,7 +11,6 @@ export default (props) => {
 
       async function signOut(){
           await dispatch({type:'CLEAR_ALL'});
-          console.log(uid)
           if(uid !== '')
             await Easy.logout();
           await dispatch({type:'SIGN_OUT', uid:'', address:''});

@@ -5,6 +5,7 @@ import styles from './styles';
 import Extra from '../../components/Extra-Item/index';
 import Mask from '../../common/textMask';
 import whiteArrow from '../../assets/images/white-arrow.png';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default (props) => {
     const params = props.navigation.state.params;
