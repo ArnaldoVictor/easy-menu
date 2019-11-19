@@ -7,8 +7,15 @@ import styles from './styles';
 
 export default (props) => {
     const [products, setProducts] = useState([]);
+    const [productsLength, setProductsLength] = useState(undefined);
     const [headerTitle, setHeaderTitle] = useState('');
     const obj = props.navigation.state.params;
+    const listener = props.navigation.addListener('didBlur', refresh);
+
+    function refresh(){
+        setProductsLength(undefined);
+        listener.remove();
+    }
 
     async function loadProducts(snapshot){
         const list = [];
@@ -24,6 +31,7 @@ export default (props) => {
             })
         });
         setProducts(list);
+        list.length < 1 && setProductsLength(0);
     }
 
     useEffect(()=>{
@@ -45,11 +53,15 @@ export default (props) => {
                 })
             })
             setProducts(list);
+            list.length < 1 && setProductsLength(0);
         }
 
 
         if(obj.type === 'section'){
             const ref = Easy.getProducts().orderByChild(obj.type).equalTo(obj.name);
+            ref.once('value', loadProducts);
+        }else if(obj.type === 'search'){
+            const ref = Easy.getProducts().orderByChild('name').startAt(obj.name).endAt(obj.name+"\uf8ff");
             ref.once('value', loadProducts);
         }else{
             loadPromotionProducts(obj.promotionItems)
@@ -69,18 +81,34 @@ export default (props) => {
         ));
     }
 
-  return (
-    <ScrollView style={styles.scrollContainer}>
-        <View style={styles.header}>
-            <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
-                <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>{headerTitle}</Text>
-        </View>
-        <View style={styles.container}>
-            {products.length > 0 && renderProducts()}
-        </View>
+    if(productsLength === 0){
+        return (
+        <View style={styles.scrollContainer}>
+            <View style={styles.header}>
+                <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
+                    <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>{headerTitle}</Text>
+            </View>
+            <View style={styles.emptyContainer}>
+                <Text style={styles.emptyList}>Nenhum produto encontrado!</Text>
+            </View>
 
-    </ScrollView>
-  );
+        </View>)
+    }
+
+    return (
+        <ScrollView style={styles.scrollContainer}>
+            <View style={styles.header}>
+                <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.goBack()}>
+                    <Icon name='arrow-left' color='rgba(0, 0, 0, 0.7)' size={32}/>
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>{headerTitle}</Text>
+            </View>
+            <View style={styles.container}>
+                {products.length > 0 && renderProducts()}
+            </View>
+
+        </ScrollView>
+    );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from './styles';
 import Easy from '../../services/firebase';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -51,6 +51,7 @@ export default (props) => {
     if(user != undefined && user !== ''){
       dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0], status:userData[1]});
       dispatch({type:'SET_ADDRESS', address:userData[0]}); 
+      Alert.alert('Logado', 'Login feito com sucesso!');
       props.navigation.navigate('Home');
     }
   }, [userData])

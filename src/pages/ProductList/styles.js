@@ -3,7 +3,8 @@ const width = Dimensions.get('screen').width;
 
 const styles = StyleSheet.create({
     scrollContainer:{
-        flex:1
+        flex:1,
+        backgroundColor:'#FFFFFF'
     },
     header:{
         width:width,
@@ -33,6 +34,15 @@ const styles = StyleSheet.create({
     goBack:{
         marginLeft:20,
         marginRight:20
+    },
+    emptyContainer:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    emptyList:{
+        fontSize:20,
+        fontWeight:'bold'
     }
 });
 

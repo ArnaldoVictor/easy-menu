@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:'center',
         alignItems:'center',
+        backgroundColor:'#FFFFFF',
         marginTop:20
     },
     scrollContainer:{

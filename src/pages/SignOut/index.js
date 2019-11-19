@@ -24,6 +24,6 @@ export default (props) => {
     }, []);
     
   return (
-    <View />    
+    <View style={{flex:1, backgroundColor:'#FFFFFF'}}/>    
   );
 }

@@ -41,7 +41,7 @@ export default (props) => {
                 path: 'images',
             },
         };
-        console.log('Me clicou!');
+
         await ImagePicker.showImagePicker(options, (response)=>{
             if(response.uri){
                 const displayImage = response.data;

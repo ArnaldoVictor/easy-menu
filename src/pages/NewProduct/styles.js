@@ -6,6 +6,7 @@ const height = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
     container:{
         flex:1,
+        backgroundColor:'#FFFFFF',
         marginBottom:20
     },
     backButton:{

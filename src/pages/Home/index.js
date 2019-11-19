@@ -14,6 +14,7 @@ export default (props) => {
   const [promotionItems, setPromotionItems] = useState([]);
   const [selectedPromotion, setSelectedPromotion] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const state = useSelector(state => state.order);
 
@@ -25,7 +26,6 @@ export default (props) => {
   }
 
   useEffect(()=>{
-    console.log('State Home:'+state);
 
     async function getProducts(){
       const ref = Easy.getProducts();
@@ -121,8 +121,16 @@ export default (props) => {
     setSections(list);
   }
 
+  function searchProduct(){
+    if(search !== ''){
+      let text = search;
+      props.navigation.navigate('ProductList', {type:'search', name:text});
+      setSearch('');
+    }
+  }
+
   return (
-    <React.Fragment>
+    <View style={{backgroundColor:'#FFFFFF', flex:1}}>
       {/* HEADER */}
       <View style={styles.containerHeader}>
 
@@ -130,18 +138,22 @@ export default (props) => {
           <Icon name='navicon' size={26} style={styles.navIcon}/>
         </TouchableOpacity>
 
-        <TextInput 
-          style={styles.inputSearch}
-          placeholder='Pesquisar...'
-          placeholderTextColor='#6A6A6A'
-          placeholderStyle={{color:'rgba(106, 106, 106, 0.65)'}}
-        />
+        <View style={styles.searchArea}>
 
-        <TouchableOpacity>
-          <Icon name='search' size={20} style={styles.searchIcon}/>
-        </TouchableOpacity>
+          <TextInput 
+            style={styles.inputSearch}
+            value={search}
+            placeholder='Pesquisar...'
+            placeholderTextColor='#6A6A6A'
+            placeholderStyle={{color:'rgba(106, 106, 106, 0.65)'}}
+            onChangeText={text => setSearch(text)}
+          />
+          <TouchableOpacity onPress={searchProduct} style={styles.searchIcon}>
+            <Icon name='search' size={20} />
+          </TouchableOpacity>
 
-        
+        </View>
+
       {/* CONTENT */}
       </View>
       {loading === true && (<ActivityIndicator size='large' color='#0000FF' />)}
@@ -201,7 +213,7 @@ export default (props) => {
         </ScrollView>
       )}
       
-    </React.Fragment>
+    </View>
 
   );
 }

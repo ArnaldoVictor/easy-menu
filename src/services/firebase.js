@@ -7,7 +7,6 @@ export default {
 
     async login(email, password){
         await auth().signInWithEmailAndPassword(email, password);
-        return Alert.alert('Logado', 'Login feito com sucesso!');
     },
 
     async logout(){

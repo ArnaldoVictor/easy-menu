@@ -64,6 +64,7 @@ export default (props) => {
     <ScrollView 
       showsVerticalScrollIndicator={false} 
       contentContainerStyle={{ alignItems:'center', justifyContent:'center'}}
+      style={{flex:1, backgroundColor:'#FFFFFF'}}
     >
 
       {/* Header */}

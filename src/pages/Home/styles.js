@@ -3,28 +3,34 @@ const width = Dimensions.get('screen').width;
 
 const styles = StyleSheet.create({
     containerHeader:{
-        marginTop:20,
-        justifyContent:'center',
+        margin:20,
+        justifyContent:'space-between',
         flexDirection:'row',
         alignItems:'center',
-        marginBottom:20
+
 
     },
+    searchArea:{
+        alignItems:'center'
+    },
     navIcon:{
-        marginRight:30
+        marginRight:30,
     },
     searchIcon:{
+        flex:1,
         zIndex:99,
-        marginLeft:-30,
-        lineHeight:20
+        lineHeight:20,
+        marginLeft:width-130,
+        marginTop:-26,
     },
     inputSearch:{
         width:width - 92,
         borderWidth:0.4,
         borderColor:'#6A6A6A',
         padding:0,
+        paddingRight:40,
+        paddingLeft:15,
         height:30,
-        paddingHorizontal:15,
         borderRadius:10,
         fontFamily: 'Roboto',
         fontStyle: 'normal',

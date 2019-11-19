@@ -46,7 +46,7 @@ export default (props) => {
                         key:childItem.key,
                         name:childItem.child('products/0/name').val(),
                         price:childItem.child('products/0/price').val(),
-                        url:childItem.child('products/0/url').val(),
+                        imageUrl:childItem.child('products/0/imageUrl').val(),
                         desc:childItem.child('products/0/desc').val(),
                         qtd:childItem.child('qtd').val()
                     });
@@ -116,7 +116,7 @@ export default (props) => {
 
     function renderProductList(){
         return products.map((item, key)=>(
-            <Product qtd={item.qtd} key={key} order={1} name={item.name} desc={item.desc} price={item.price} url={item.url} last={products.length -1 === key && 1}/>
+            <Product qtd={item.qtd} key={key} order={1} name={item.name} desc={item.desc} price={item.price} url={item.imageUrl} last={products.length -1 === key && 1}/>
         ))
 
     }

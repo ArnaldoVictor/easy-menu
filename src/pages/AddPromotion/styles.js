@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-        marginBottom:20
+        marginBottom:20,
+        backgroundColor:'#FFFFFF'
     },
     h1:{
         fontFamily: 'Roboto',
