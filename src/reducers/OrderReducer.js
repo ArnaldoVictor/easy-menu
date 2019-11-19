@@ -33,13 +33,13 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.address = action.address != undefined ? action.address : '';
             state.qtd = action.qtd;
             state.total = action.total;
+            console.log("Key:", state.key);
 
             if(state.key === ''){
                 state.key = Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
             }else{
                 Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
             }
-            console.log('Key pós dispatch:'+state.key);
             clearState();
 
             return state;

@@ -6,6 +6,7 @@ import Extra from '../../components/Extra-Item/index';
 import Mask from '../../common/textMask';
 import whiteArrow from '../../assets/images/white-arrow.png';
 import AsyncStorage from '@react-native-community/async-storage';
+import store from '../../store/index';
 
 export default (props) => {
     const params = props.navigation.state.params;
@@ -19,7 +20,12 @@ export default (props) => {
 
     async function order(){
         let state = await dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
-        console.log(state);
+        console.log('Order key:'+store.getState().order.key);
+        if(store.getState().order.key === '' || state.address === ''){
+            let tempKey = ['key', store.getState().order.key];
+            let tempAddress = ['address', state.address];
+            await AsyncStorage.multiSet([tempKey, tempAddress]);
+        }
         Alert.alert('Pedido', 'Pedido feito com sucesso!');
     }
 

@@ -4,39 +4,52 @@ import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles';
 import Easy from '../../services/firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default (props) => {
   const [userData, setUserData] = useState([]);
   const [user, setUser] = useState(undefined);
-
-  const state = useSelector(state => state.order);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+  async function getPersistData(){
+    let key = await AsyncStorage.getItem('key');
+    let address = await AsyncStorage.getItem('address');
+
     
+    if(key != undefined && address != undefined){
+      dispatch({type:'RETRIEVE_DATA', key, address});
+      props.navigation.navigate('Home');
+    }
+
+  }
+
+  useEffect(()=>{
+
     Easy.addAuthListener((user)=>{
-      if(user){
+      if(user)
         setUser(user);
-      }else{
+      else
         setUser('');
-        // if(key !== '')
-        //   props.navigation.navigate('Home')
-      }
+      getPersistData();    
     });
 
   }, []);
 
 
   useEffect(()=>{
-
-    if(user != undefined && user !== ''){
-      const ref = Easy.getUserData(user.uid);
-      ref.once('value', getUserData);
-
-      dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0]});
-      props.navigation.navigate('Home');
-
+    async function setData(){
+      if(user != undefined && user !== ''){
+        const ref = Easy.getUserData(user.uid);
+        await ref.once('value', getUserData);
+        dispatch({type:'SET_ADDRESS', address:userData[0]});
+  
+        dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0]});
+        props.navigation.navigate('Home');
+      }
     }
+    setData();
+
+
   },[user])
 
 
@@ -54,11 +67,6 @@ export default (props) => {
     setUserData(list);
 
   }
-
-  useEffect(()=>{
-    console.log('Key:', state)
-
-  }, [state])
 
   function signIn(values){
     if(values.email != '' && values.password != ''){
