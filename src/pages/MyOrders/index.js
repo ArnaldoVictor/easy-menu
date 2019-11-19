@@ -9,7 +9,7 @@ import Product from '../../components/Product/index';
 import Extra from '../../components/Extra-Item/index';
 
 export default (props) => {
-    const key = useSelector(state=>state.order.key);
+    const key = useSelector(state => state.order.key);
     const [products, setProducts] = useState([]);
     const [extraItems, setExtraItems] = useState([]);
     const [total, setTotal] = useState([]);

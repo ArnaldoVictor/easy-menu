@@ -30,7 +30,7 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.products = products;
             state.extraItems = extraItems;
             state.observation = action.observation;
-            state.address = action.address != undefined ? action.address : '';
+            state.address = state.key != undefined ? action.address : '';
             state.qtd = action.qtd;
             state.total = action.total;
             console.log("Key:", state.key);

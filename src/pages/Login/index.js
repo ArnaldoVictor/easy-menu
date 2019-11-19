@@ -14,7 +14,6 @@ export default (props) => {
   async function getPersistData(){
     let key = await AsyncStorage.getItem('key');
     let address = await AsyncStorage.getItem('address');
-
     
     if(key != undefined && address != undefined){
       dispatch({type:'RETRIEVE_DATA', key, address});
@@ -30,9 +29,10 @@ export default (props) => {
         setUser(user);
       else
         setUser('');
-      getPersistData();    
     });
 
+    getPersistData();    
+      
   }, []);
 
 
@@ -41,21 +41,19 @@ export default (props) => {
       if(user != undefined && user !== ''){
         const ref = Easy.getUserData(user.uid);
         await ref.once('value', getUserData);
-        dispatch({type:'SET_ADDRESS', address:userData[0]});
-  
-        dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0]});
-        props.navigation.navigate('Home');
       }
     }
     setData();
-
-
   },[user])
 
 
-  // useEffect(()=>{
-  //   dispatch({type:'SET_ADDRESS', address:userData[0]});
-  // }, [userData])
+  useEffect(()=>{
+    if(user != undefined && user !== ''){
+      dispatch({type:'SIGN_IN', uid:user.uid, address:userData[0], status:userData[1]});
+      dispatch({type:'SET_ADDRESS', address:userData[0]}); 
+      props.navigation.navigate('Home');
+    }
+  }, [userData])
 
 
   function getUserData(snapshot){

@@ -10,8 +10,8 @@ export default {
         return Alert.alert('Logado', 'Login feito com sucesso!');
     },
 
-    logout(){
-        auth().signOut();
+    async logout(){
+        await auth().signOut();
         return Alert.alert('Deslogado', 'Agora você está deslogado do sistema!');
     },
 

@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     uid:'',
-    address:''
+    address:'',
+    status:null
 }
 
 export default function AuthReducer(state = INITIAL_STATE,  action){
@@ -12,11 +13,13 @@ export default function AuthReducer(state = INITIAL_STATE,  action){
         case 'SIGN_IN':
             state.uid = action.uid;
             state.address = action.address;
+            state.status = action.status;
             return state;
 
         case 'SIGN_OUT':
             state.uid = action.uid;
             state.address = action.address;
+            state.status = action.status;
             return state;
             
         default:

@@ -14,14 +14,14 @@ export default (props) => {
     const [comment, setComment] = useState(null);
     const totalState = useSelector(state => state.extra.total);
     const items = useSelector(state => state.extra.items);
-    const address = useSelector(state => state.auth.address);
+    const key = useSelector(state => state.order.key);
+    const address = useSelector(state => state.order.address);
     const dispatch = useDispatch();
 
 
     async function order(){
         let state = await dispatch({type:'ORDER', product:params.item, total:total.value, qtd:total.qtd, observation:comment, items, address});
-        console.log('Order key:'+store.getState().order.key);
-        if(store.getState().order.key === '' || state.address === ''){
+        if(key === ''){
             let tempKey = ['key', store.getState().order.key];
             let tempAddress = ['address', state.address];
             await AsyncStorage.multiSet([tempKey, tempAddress]);
