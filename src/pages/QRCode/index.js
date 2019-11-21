@@ -26,7 +26,7 @@ export default ({navigation}) => {
     useEffect(()=>{
         async function setData(){
             if(barCodeData !== null && barCodeType !== null){
-                await dispatch({type:'QR_READ', address:barCodeData});
+                await dispatch({type:'QR_READ', address:barCodeData, status:0});
                 navigation.navigate('Home');
             }
         }

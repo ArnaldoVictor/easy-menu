@@ -8,6 +8,7 @@ export default function AuthReducer(state = INITIAL_STATE,  action){
     switch(action.type){
         case 'QR_READ':
             state.address = action.address;
+            state.status = action.status;
             return state;
     
         case 'SIGN_IN':
