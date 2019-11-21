@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { Transition } from 'react-native-reanimated';
 import { createAppContainer } from 'react-navigation';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
@@ -16,13 +17,14 @@ import AddPromotion from './pages/AddPromotion/index';
 import ProductList from './pages/ProductList/index';
 import MyOrders from './pages/MyOrders/index';
 import Orders from './pages/Orders/index';
+import store from './store/index';
 
 const DrawerScreens = createDrawerNavigator({
     Home,
     NewProduct:{
         screen:NewProduct,
         navigationOptions:{
-            title:'Cadastrar Produto'
+            drawerLabel:()=>store.getState().auth.status === 0 ? null : 'Cadastrar Produto'
         }
     },
     Product:{
@@ -35,13 +37,13 @@ const DrawerScreens = createDrawerNavigator({
     AddSection:{
         screen:AddSection,
         navigationOptions:{
-            title:'Adicionar Categoria'
+            drawerLabel:()=>store.getState().auth.status === 0 ? null : 'Adicionar Categoria'
         }
     },
     AddPromotion:{
         screen:AddPromotion,
         navigationOptions:{
-            title:'Criar Promoção'
+            drawerLabel:()=>store.getState().auth.status === 0 ? null : 'Criar Promoção'
         }
     },
     ProductList:{
@@ -60,13 +62,13 @@ const DrawerScreens = createDrawerNavigator({
     Orders:{
         screen:Orders,
         navigationOptions:{
-            title:'Pedidos'
+            drawerLabel:()=>store.getState().auth.status === 0 ? null : 'Pedidos'
         }
     },
     SignOut:{
         screen:SignOut,
         navigationOptions:{
-            title:'Deslogar'
+            drawerLabel:()=>store.getState().auth.status === 0 ? 'Encerrar Sessão' : 'Deslogar'
         },
         
     }

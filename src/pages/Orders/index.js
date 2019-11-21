@@ -129,7 +129,7 @@ export default (props) => {
 
     if(products.length === 0){
         return (
-        <React.Fragment>
+        <View style={{flex:1, backgroundColor:'#FFFFFF'}}>
                 
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.goBack} onPress={()=>props.navigation.navigate('Home')}>
@@ -141,7 +141,7 @@ export default (props) => {
                     <Text style={{fontSize:20, fontWeight:'bold'}}>Nenhum Pedido Feito Ainda!</Text>
                 </View>
 
-        </React.Fragment>
+        </View>
 
         )
     }

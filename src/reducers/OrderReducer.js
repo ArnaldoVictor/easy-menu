@@ -33,7 +33,6 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.address = state.key != undefined ? action.address : '';
             state.qtd = action.qtd;
             state.total = action.total;
-            console.log("Key:", state.key);
 
             if(state.key === ''){
                 state.key = Easy.setOrder(state.key, state.address, state.products, state.extraItems, state.observation, state.qtd, state.total);
@@ -59,6 +58,8 @@ export default function OrderReducer(state = INITIAL_STATE, action){
             state.address = '';
 
             return state;
+
+
 
         default:
             return state;

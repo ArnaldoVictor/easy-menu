@@ -6,8 +6,7 @@ const height = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#FFFFFF',
-        marginBottom:20
+        backgroundColor:'#FFFFFF'
     },
     backButton:{
         zIndex:99,
@@ -71,7 +70,8 @@ const styles = StyleSheet.create({
         borderColor:'#6A6A6A',
         width:width-100,
         marginTop:20,
-        padding:10
+        padding:10,
+        backgroundColor:'#FFFFFF'
     },
     itemPriceArea:{
         flexDirection:'row',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         textShadowColor: 'rgba(0, 0, 0, 0.2)',
         textShadowOffset: {width: 0, height: 4},
         textShadowRadius: 4,
-        marginBottom:10,
+        marginBottom:30,
         justifyContent:'center'
     },
     TBtn:{
@@ -171,6 +171,11 @@ const styles = StyleSheet.create({
         fontSize:16,
         fontWeight:'bold',
         fontFamily:'Roboto'
+    },
+    recommendArea:{
+        marginTop:10,
+        flexDirection:'row',
+        alignItems:'center'
     }
 });
 

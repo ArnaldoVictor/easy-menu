@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, TextInput, Alert, Dimensions, KeyboardAvoidingView } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Formik } from 'formik';
+import CheckBox from '@react-native-community/checkbox';
 import styles from './styles';
 import Mask from '../../common/textMask';
 import Easy from '../../services/firebase';
@@ -11,6 +12,7 @@ export default (props) => {
     const [image, setImage] = useState({});
     const [sections, setSections] = useState([]);
     const [selectedSection, setSelectedSection] = useState('');
+    const [recommend, setRecommend] = useState(true);
     const width = Dimensions.get('screen').width;
 
     function onSnapshot(snapshot){
@@ -79,7 +81,7 @@ export default (props) => {
             
             await storageRef.putString(image.displayImage, 'base64', metadata).then(()=>{
                 Easy.getImageURL(path).then(async (url)=>{
-                    await Easy.registerProduct(values.name, values.desc, values.price, list, url, selectedSection);
+                    await Easy.registerProduct(values.name, values.desc, values.price, list, url, selectedSection, recommend);
                 });
                 Alert.alert('Cadastro', 'Cadastro feito com sucesso!')
 
@@ -224,6 +226,10 @@ export default (props) => {
                                     {list.length > 0 && renderList() }
                                     
                                 </View>
+                            </View>
+                            <View style={styles.recommendArea}>
+                                <CheckBox value={recommend} onChange={() => setRecommend(!recommend)}/>
+                                <Text style={styles.recommendText}>Adicionar produto aos recomendados</Text>
                             </View>
                             <TouchableOpacity style={styles.registerBtn} onPress={handleSubmit}>
                                 <Text style={styles.TBtn}>Cadastrar</Text>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, RefreshControl, ActivityIndicator, StatusBar } from 'react-native';
 import styles from './styles';
 import Easy from '../../services/firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,10 +12,10 @@ export default (props) => {
   const [promotions, setPromotions] = useState([]);
   const [promotionItems, setPromotionItems] = useState([]);
   const [selectedPromotion, setSelectedPromotion] = useState('');
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
-  const state = useSelector(state => state.order);
 
 
   function onRefresh(){
@@ -95,8 +94,20 @@ export default (props) => {
   
   function loadLists(snapshot){
     const list = [];
+    const recommendedList = [];
 
     snapshot.forEach((product)=>{
+      if(product.val().recommend === 1){
+        recommendedList.push({
+          key:product.key,
+          name:product.val().name,
+          price:product.val().price,
+          imageUrl:product.val().imageUrl,
+          desc:product.val().desc,
+          items:product.val().items
+        });
+      }
+
       list.push({
         key:product.key,
         name:product.val().name,
@@ -107,6 +118,7 @@ export default (props) => {
       });
     });
     setProducts(list);
+    setRecommendedProducts(recommendedList);
   }
 
   function loadSections(snapshot){
@@ -131,6 +143,7 @@ export default (props) => {
 
   return (
     <View style={{backgroundColor:'#FFFFFF', flex:1}}>
+    <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
       {/* HEADER */}
       <View style={styles.containerHeader}>
 
@@ -156,6 +169,7 @@ export default (props) => {
 
       {/* CONTENT */}
       </View>
+      <StatusBar backgroundColor="#FFFFFF" barStyle='dark-content'/>
       {loading === true && (<ActivityIndicator size='large' color='#0000FF' />)}
       {loading === false && (
         <ScrollView 
@@ -202,7 +216,7 @@ export default (props) => {
             <Text style={styles.titleSection}>Recomendamos</Text>
             <FlatList 
               horizontal={true}
-              data={products}
+              data={recommendedProducts}
               renderItem={({item})=><ItemMenu url={item.imageUrl} name={item.name} price={item.price} onPress={()=>props.navigation.navigate('Product', {item, direct:1})}/>}
               keyExtractor={(item)=> item.key}
               style={styles.list}

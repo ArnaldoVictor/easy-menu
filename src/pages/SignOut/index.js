@@ -14,9 +14,9 @@ export default (props) => {
           await dispatch({type:'CLEAR_ALL'});
           await AsyncStorage.multiRemove(['key', 'address']);
           await AsyncStorage.setItem('logout', 'yes');
-          let state = await dispatch({type:'SIGN_OUT', uid:'', address:'', satus:null});
-          if(state.uid === '')
+          if(store.getState().auth.uid !== '')
             await Easy.logout();
+          await dispatch({type:'SIGN_OUT', uid:'', address:'', satus:null});
           props.navigation.navigate('Login');
       }
       signOut();

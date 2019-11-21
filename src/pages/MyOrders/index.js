@@ -7,6 +7,7 @@ import Easy from '../../services/firebase';
 import Mask from '../../common/textMask';
 import Product from '../../components/Product/index';
 import Extra from '../../components/Extra-Item/index';
+import store from '../../store/index';
 
 export default (props) => {
     const key = useSelector(state => state.order.key);
@@ -14,6 +15,7 @@ export default (props) => {
     const [extraItems, setExtraItems] = useState([]);
     const [total, setTotal] = useState([]);
     const address = useSelector(state => state.order.address);
+    const addressUid = useSelector(state => state.auth.address);
     const listener = props.navigation.addListener('didFocus', refresh);
 
     function refresh(){
@@ -153,7 +155,7 @@ export default (props) => {
             {/* ORDER */}
             <View style={styles.headerOrder}>
                 <Image style={styles.orderStatus} source={require('../../assets/images/meal.png')}/>
-                <Text style={styles.address}>{address}</Text>
+                <Text style={styles.address}>{store.getState().order.address === '' ? store.getState().auth.address : store.getState().order.address}</Text>
             </View>
 
             {/* PRODUCTS */}

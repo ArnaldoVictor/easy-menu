@@ -75,7 +75,7 @@ export default (props) => {
     function renderProducts(){
         return products.map((item, key)=>(
             <TouchableOpacity key={key} style={styles.productButton} onPress={()=>props.navigation.navigate('Product', {item, direct:0})}>
-                <Product name={item.name} desc={item.desc} price={item.price} url={item.imageUrl}/>
+                <Product name={item.name} desc={item.desc} price={item.price} url={item.imageUrl} last={products.length - 1 === key && 1}/>
             </TouchableOpacity>
 
         ));

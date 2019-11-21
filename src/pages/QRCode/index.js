@@ -24,10 +24,13 @@ export default ({navigation}) => {
     }
 
     useEffect(()=>{
-        if(barCodeData !== null && barCodeType !== null){
-            dispatch({type:'QR_READ', address:barCodeData});
-            navigation.navigate('Home');
+        async function setData(){
+            if(barCodeData !== null && barCodeType !== null){
+                await dispatch({type:'QR_READ', address:barCodeData});
+                navigation.navigate('Home');
+            }
         }
+        setData()
         
     }, [barCodeData])
 

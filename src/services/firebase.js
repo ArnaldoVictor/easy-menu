@@ -2,6 +2,7 @@ import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import { Alert } from 'react-native';
+import store from '../store/index';
 
 export default { 
 
@@ -11,7 +12,9 @@ export default {
 
     async logout(){
         await auth().signOut();
-        return Alert.alert('Deslogado', 'Agora você está deslogado do sistema!');
+        let titleMsg = store.getState().auth.status === 0 ? 'Sessão' : 'Deslogado';
+        let logoutMsg = store.getState().auth.status === 0 ? 'Sessão encerrada!' : 'Agora você está deslogado do sistema!';
+        return Alert.alert(titleMsg, logoutMsg);
     },
 
     createUser(email, password){
@@ -54,7 +57,7 @@ export default {
         return Alert.alert('Cadastrado', 'Cadastrado com sucesso!');
     },
 
-    registerProduct(name, desc, price, items = [], imageUrl, section){
+    registerProduct(name, desc, price, items = [], imageUrl, section, recommend){
         let ref = database().ref('products');
         let key = ref.push().key;
         ref.child(key).set({
@@ -64,7 +67,8 @@ export default {
             items,
             imageUrl,
             sold:0,
-            section
+            section,
+            recommend:recommend === true ? 1 : 0
         });
     },
 
