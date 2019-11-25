@@ -9,5 +9,7 @@
 # About This Project
 This project has been developed in order to make restaurant's orders easier and fast.
 
+If you want to see the full docs click <a href="https://github.com/ArnaldoVictor/easy-menu/blob/master/docs/Doc-Visao.pdf" style="color:blue">here</a>
+
 # Why
 I've been developing this project for a college work.
