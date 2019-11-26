@@ -17,6 +17,7 @@ import AddPromotion from './pages/AddPromotion/index';
 import ProductList from './pages/ProductList/index';
 import MyOrders from './pages/MyOrders/index';
 import Orders from './pages/Orders/index';
+import EditProducts from './pages/EditProducts/index';
 import store from './store/index';
 
 const DrawerScreens = createDrawerNavigator({
@@ -25,6 +26,12 @@ const DrawerScreens = createDrawerNavigator({
         screen:NewProduct,
         navigationOptions:{
             drawerLabel:()=>store.getState().auth.status === 0 ? null : 'Cadastrar Produto'
+        }
+    },
+    EditProducts:{
+        screen:EditProducts,
+        navigationOptions:{
+            drawerLabel:()=>store.getState().auth.status === 0 ? null : 'Editar Produtos'
         }
     },
     Product:{
